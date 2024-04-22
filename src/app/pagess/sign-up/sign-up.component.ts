@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.css',
+  selector: 'app-signup',
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.css',
 })
-export class SignInComponent {
+export class SignupComponent {
   signupOj: any = {
     userName: '',
     phone: '',
@@ -14,7 +14,7 @@ export class SignInComponent {
     cfpassword: '',
   };
 
-  constructor(private Router: Router) {}
+  constructor(private router: Router) {}
   onSignup() {
     var passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$])[A-Za-z\d@#$]{8,}$/;
@@ -25,7 +25,7 @@ export class SignInComponent {
       /^\d{10}$/.test(this.signupOj.phone) &&
       this.signupOj.cfpassword === this.signupOj.password
     ) {
-      this.Router.navigateByUrl('/login');
+      this.router.navigateByUrl('/login');
     } else {
       alert('Yêu cầu nhập đúng thông tin');
     }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Animated Signup</title>
+  </head>
+
+  <body>
+    <div class="box">
+      <form autocomplete="off">
+        <h2>Đăng kí</h2>
+        <div class="inputBox">
+          <input
+            type="text"
+            [(ngModel)]="signupOj.userName"
+            id="username"
+            name="userName"
+            required="required"
+          />
+          <span>Tên Đăng Nhập</span>
+          <i></i>
+        </div>
+
+        <div class="inputBox">
+          <input
+            type="text"
+            [(ngModel)]="signupOj.phone"
+            id="phone"
+            name="phone"
+            required="required"
+          />
+          <span>Số điện thoại</span>
+          <i></i>
+        </div>
+
+        <div class="inputBox">
+          <input
+            type="password"
+            [(ngModel)]="signupOj.password"
+            name="password"
+            id="password"
+            required="required"
+          />
+          <span>Mật khẩu</span>
+          <i></i>
+        </div>
+        <div class="inputBox">
+          <input
+            type="password"
+            [(ngModel)]="signupOj.cfpassword"
+            name="cfpassword"
+            id="cfpassword"
+            required="required"
+          />
+          <span>Nhập lại mật khẩu</span>
+          <i></i>
+        </div>
+        <div class="links">
+          <a href="#">Bạn đã có tài khoản?</a>
+          <a href="#">Đăng nhập</a>
+        </div>
+        <input type="submit" (click)="onSignup()" value="Signup" />
+      </form>
+    </div>
+  </body>
+</html>
