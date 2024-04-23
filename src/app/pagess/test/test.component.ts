@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+  styleUrl: './test.component.css',
 })
-export class HomeComponent {
-  constructor(private router: Router) {}
+export class TestComponent {
   isCollapsed = false;
+  constructor(private router: Router) {}
   onClick() {
     this.router.navigateByUrl('sign-in'); // Replace with actual sign-in route path
   }

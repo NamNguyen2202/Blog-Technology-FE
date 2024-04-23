@@ -15,6 +15,9 @@ export class SignInComponent {
   };
 
   constructor(private Router: Router) {}
+  onClick() {
+    this.Router.navigateByUrl('sign-up'); // Replace with actual sign-in route path
+  }
   onSignup() {
     var passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$])[A-Za-z\d@#$]{8,}$/;
