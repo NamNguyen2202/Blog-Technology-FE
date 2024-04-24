@@ -1,0 +1,58 @@
+<h1>Thêm bài viết</h1>
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Tiều đề</nz-form-label>
+    <nz-form-control
+      [nzSpan]="12"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+    >
+      <input
+        [nzSize]="'large'"
+        nz-input
+        formControlName="Tieude"
+        placeholder="Nhập tiêu đề bài viết"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Nội dung bài viết</nz-form-label>
+    <nz-form-control
+      [nzSpan]="12"
+      nzHasFeedback
+      nzErrorTip="Please write something here!"
+    >
+      <nz-textarea-count [nzMaxCharacterCount]="2000">
+        <textarea
+          formControlName="comment"
+          nz-input
+          [cols]="50"
+          rows="5"
+          placeholder="Viết nội dung..."
+        ></textarea>
+      </nz-textarea-count>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class="clearfix">
+    <nz-upload
+      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      nzListType="picture"
+      [(nzFileList)]="fileList1"
+    >
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        Upload
+      </button>
+    </nz-upload>
+  </div>
+
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!validateForm.valid">
+        Submit
+      </button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

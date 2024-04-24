@@ -5,22 +5,33 @@
       <li nz-submenu nzTitle="User" nzIcon="user">
         <ul>
           <li nz-menu-item>
-            <a routerLink="/sign-up" onclick="onClick()">Đăng kí</a>
+            <span
+              nz-icon
+              nzType="info-circle"
+              nzTheme="outline"
+              style="margin-right: 10px"
+            ></span>
+            <a (click)="showPerInfoComponent()">Thông tin cá nhân</a>
           </li>
           <li nz-menu-item>
-            <a routerLink="/sign-in" onclick="onClick()">Đăng nhập</a>
+            <span nz-icon nzType="key" style="margin-right: 10px"></span>
+            <a (click)="showChangePasswordComponent()"> Đổi mật khẩu </a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="Bài viết" nzIcon="snippets">
         <ul>
-          <li nz-menu-item>Bài viết của tôi</li>
-          <li nz-menu-item>Tất cả bài viết</li>
+          <li nz-menu-item>
+            <a (click)="showArticleMeComponent()"> Bài viết của tôi</a>
+          </li>
+          <li nz-menu-item>
+            <a (click)="showArticleAllComponent()"> Tất cả bài viết</a>
+          </li>
         </ul>
       </li>
       <li nz-menu-item>
         <span nz-icon nzType="edit"></span>
-        <span>Thêm bài viết</span>
+        <a (click)="showAddArticlesComponent()">Thêm bài viết</a>
       </li>
     </ul>
   </nz-sider>
@@ -32,14 +43,14 @@
         [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
         (click)="isCollapsed = !isCollapsed"
       ></span>
-      <button
+      <!-- <button
         style="float: right"
         nz-button
         [nzSize]="'small'"
         nzType="primary"
       >
         Đăng nhập
-      </button>
+      </button> -->
       <!-- <button
         style="display: flex"
         nz-button
@@ -50,13 +61,53 @@
       </button> -->
     </nz-header>
     <nz-content>
-      <nz-breadcrumb>
+      <nz-breadcrumb
+        *ngIf="
+          !showChangePassword &&
+          !showAddArticle &&
+          !showArticleMe &&
+          !showArticleAll &&
+          !showPerInfo
+        "
+      >
         <nz-breadcrumb-item style="font-size: 30px"
           >Trang chủ</nz-breadcrumb-item
         >
       </nz-breadcrumb>
-      <div class="inner-content">Danh sách bài viết</div>
+      <div
+        class="inner-content"
+        *ngIf="
+          !showChangePassword &&
+          !showAddArticle &&
+          !showArticleMe &&
+          !showArticleAll &&
+          !showPerInfo
+        "
+      >
+        Danh sách bài viết
+      </div>
+      <div *ngIf="showChangePassword">
+        <app-change-password></app-change-password>
+      </div>
+
+      <div *ngIf="showArticleMe">
+        <app-article-me></app-article-me>
+      </div>
+      <!-- Hiển thị component AddArticles khi showAddArticle là true -->
+      <div *ngIf="showArticleAll">
+        <app-article-all></app-article-all>
+      </div>
+      <div *ngIf="showAddArticle">
+        <app-add-articles></app-add-articles>
+      </div>
+      <div *ngIf="showPerInfo">
+        <app-per-info></app-per-info>
+      </div>
     </nz-content>
-    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+    <footer>
+      <div style="text-align: center; margin: 0 auto">
+        <nz-pagination [nzPageIndex]="1" [nzTotal]="50"></nz-pagination>
+      </div>
+    </footer>
   </nz-layout>
 </nz-layout>

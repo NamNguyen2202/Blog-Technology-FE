@@ -1,0 +1,20 @@
+<h1>Thông tin cá nhân</h1>
+<nz-form-item>
+  <nz-form-label [nzSpan]="7" nzRequired>Họ và tên:</nz-form-label>
+  <nz-form-control [nzSpan]="12" nzValidatingTip="Validating...">
+    <input nz-input formControlName="userName" placeholder="Nhập họ tên" />
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <nz-form-label [nzSpan]="7" nzRequired>Số điện thoại:</nz-form-label>
+  <nz-form-control [nzSpan]="12">
+    <input nz-input formControlName="mobile" placeholder="Nhập số điện thoại" />
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <nz-form-control [nzOffset]="7" [nzSpan]="12">
+    <button nz-button nzType="primary">Cập nhật thông tin</button>
+  </nz-form-control>
+</nz-form-item>
