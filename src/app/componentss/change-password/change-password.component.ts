@@ -152,7 +152,7 @@ export class MyValidators extends Validators {
       : {
           mobile: {
             'zh-cn': `手机号码格式不正确`,
-            vi: `Số điện thoại không hợp l`,
+            vi: `Số điện thoại không hợp lệ`,
           },
         };
   }

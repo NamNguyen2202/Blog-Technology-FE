@@ -36,6 +36,10 @@ import { ArticleMeComponent } from './componentss/article-me/article-me.componen
 import { NzListModule } from 'ng-zorro-antd/list';
 import { ArticleAllComponent } from './componentss/article-all/article-all.component';
 import { PerInfoComponent } from './componentss/per-info/per-info.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 
 registerLocaleData(en);
 
@@ -68,6 +72,10 @@ registerLocaleData(en);
     ReactiveFormsModule,
     NzUploadModule,
     NzListModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatButtonModule,
   ],
   providers: [
     provideClientHydration(),

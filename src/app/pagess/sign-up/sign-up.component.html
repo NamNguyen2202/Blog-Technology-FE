@@ -1,66 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Animated Signup</title>
-  </head>
+<div class="container">
+  <form
+    class="register-form"
+    [formGroup]="registerForm"
+    autocomplete="off"
+    (ngSubmit)="formSubmit$.next(true)"
+  >
+    <h2 style="font-size: 30px">Đăng kí</h2>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Tên đăng nhập</mat-label>
+        <input
+          matInput
+          placeholder="Tên đăng nhập"
+          formControlName="username"
+        />
+      </mat-form-field>
+      <div
+        *ngIf="
+          registerForm.get('username')?.hasError('required') &&
+          registerForm.get('username')?.touched
+        "
+      >
+        Tên đăng nhập không được để trống
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('username')?.hasError('minlength') &&
+          registerForm.get('username')?.touched
+        "
+      >
+        Tên đăng nhập phải có ít nhất 6 ký tự
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('username')?.hasError('pattern') &&
+          registerForm.get('username')?.touched
+        "
+      >
+        Tên đăng nhập không hợp lệ
+      </div>
 
-  <body>
-    <div class="box">
-      <form autocomplete="off">
-        <h2>Đăng kí</h2>
-        <div class="inputBox">
-          <input
-            type="text"
-            [(ngModel)]="signupOj.userName"
-            id="username"
-            name="userName"
-            required="required"
-          />
-          <span>Tên Đăng Nhập</span>
-          <i></i>
-        </div>
-
-        <div class="inputBox">
-          <input
-            type="text"
-            [(ngModel)]="signupOj.phone"
-            id="phone"
-            name="phone"
-            required="required"
-          />
-          <span>Số điện thoại</span>
-          <i></i>
-        </div>
-
-        <div class="inputBox">
-          <input
-            type="password"
-            [(ngModel)]="signupOj.password"
-            name="password"
-            id="password"
-            required="required"
-          />
-          <span>Mật khẩu</span>
-          <i></i>
-        </div>
-        <div class="inputBox">
-          <input
-            type="password"
-            [(ngModel)]="signupOj.cfpassword"
-            name="cfpassword"
-            id="cfpassword"
-            required="required"
-          />
-          <span>Nhập lại mật khẩu</span>
-          <i></i>
-        </div>
-        <div class="links">
-          <a href="#">Bạn đã có tài khoản?</a>
-          <a routerLink="/sign-in" onclick="onclick()">Đăng nhập</a>
-        </div>
-        <input type="submit" (click)="onSignup()" value="Đăng kí" />
-      </form>
+      <!-- <pre>{{ registerForm.get("username")?.errors | json }}</pre> -->
     </div>
-  </body>
-</html>
+
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Số điện thoại</mat-label>
+        <input matInput placeholder="Số điện thoại" formControlName="phone" />
+      </mat-form-field>
+      <div
+        *ngIf="
+          registerForm.get('phone')?.hasError('required') &&
+          registerForm.get('phone')?.touched
+        "
+      >
+        Số điện thoại không được để trống
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('phone')?.hasError('minlength') &&
+          registerForm.get('phone')?.touched
+        "
+      >
+        Số điện thoại phải có ít nhất 10 ký tự
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('phone')?.hasError('pattern') &&
+          registerForm.get('phone')?.touched
+        "
+      >
+        Số điện thoại không hợp lệ
+      </div>
+      <!-- <pre>{{ registerForm.get("phone")?.errors | json }}</pre> -->
+    </div>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Mật khẩu</mat-label>
+        <input
+          type="password"
+          matInput
+          placeholder="Mật khẩu"
+          formControlName="password"
+        />
+      </mat-form-field>
+      <div
+        *ngIf="
+          registerForm.get('password')?.hasError('required') &&
+          registerForm.get('password')?.touched
+        "
+      >
+        Mật khẩu không được để trống
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('password')?.hasError('minlength') &&
+          registerForm.get('password')?.touched
+        "
+      >
+        Mật khẩu phải có ít nhất 6 ký tự
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('password')?.hasError('pattern') &&
+          registerForm.get('password')?.touched
+        "
+      >
+        Mật khẩu không hợp lệ
+      </div>
+      <!-- <pre>{{ registerForm.get("password")?.errors | json }}</pre> -->
+    </div>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Nhập lại mật khẩu</mat-label>
+        <input
+          type="password"
+          matInput
+          placeholder="Nhập lại mật khẩu"
+          formControlName="confirmPassword"
+        />
+      </mat-form-field>
+      <div
+        *ngIf="
+          registerForm.get('confirmPassword')?.hasError('required') &&
+          registerForm.get('confirmPassword')?.touched
+        "
+      >
+        Nhập lại mật khẩu không được để trống
+      </div>
+      <div
+        *ngIf="
+          registerForm.get('confirmPassword')?.hasError('minlength') &&
+          registerForm.get('confirmPassword')?.touched
+        "
+      >
+        Nhập lại mật khẩu phải có ít nhất 6 ký tự
+      </div>
+      <div
+        *ngIf="
+          registerForm.hasError('valueNotMatch') &&
+          registerForm.get('confirmPassword')?.touched
+        "
+      >
+        Mật khẩu không khớp
+      </div>
+      <!-- <pre>{{ registerForm.get("confirmPassword")?.errors | json }}</pre> -->
+    </div>
+    <div class="row-control row-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
+        Đăng kí
+      </button>
+    </div>
+    <pre>{{ registerForm.value | json }}</pre>
+  </form>
+</div>
