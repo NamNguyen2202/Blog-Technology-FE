@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SignInComponent } from './pagess/sign-in/sign-in.component';
-import { SignupComponent } from './pagess/sign-up/sign-up.component';
-import { HomeComponent } from './pagess/home/home.component';
-import { TestComponent } from './pagess/test/test.component';
-import { ChangePasswordComponent } from './componentss/change-password/change-password.component';
+import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { SignupComponent } from './pages/sign-up/sign-up.component';
+import { HomeComponent } from './pages/home/home.component';
+import { TestComponent } from './pages/test/test.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
