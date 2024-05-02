@@ -65,7 +65,7 @@
             !registerForm.get('phone')?.hasError('required')
           "
         >
-          Số điện thoại phải có ít nhất 10 ký tự
+          Số điện thoại phải có ít nhất 6 ký tự
         </div>
         <div
           class="info"
@@ -78,7 +78,6 @@
           Số điện thoại không hợp lệ
         </div>
       </div>
-
       <!-- <pre>{{ registerForm.get("phone")?.errors | json }}</pre> -->
     </div>
     <div class="row-control">
@@ -118,7 +117,6 @@
           Mật khẩu không hợp lệ
         </div>
       </div>
-
       <!-- <pre>{{ registerForm.get("password")?.errors | json }}</pre> -->
     </div>
     <div class="row-control">
@@ -155,28 +153,26 @@
             !registerForm.get('confirmPassword')?.hasError('minlength')
           "
         >
-          Mật khẩu nhập lại không hợp lệ
+          Nhập lại mật khẩu không hợp lệ
         </div>
         <div
           class="info"
           *ngIf="
-            registerForm
+            !registerForm
               .get('confirmPassword')
-              ?.hasError('confirmPasswordValidator') &&
+              ?.hasError('passwordMatchValidator') &&
             !registerForm.get('confirmPassword')?.hasError('pattern') &&
             !registerForm.get('confirmPassword')?.hasError('required') &&
             !registerForm.get('confirmPassword')?.hasError('minlength')
           "
         >
-          Mật khẩu không khớp
+          Mật khẩu không khớp!!
         </div>
       </div>
-
       <!-- <pre>{{ registerForm.get("confirmPassword")?.errors | json }}</pre> -->
     </div>
     <div class="row-control row-actions">
       <button
-        style="padding: 5px 0; border-radius: 1px solid black"
         mat-raised-button
         color="primary"
         type="submit"

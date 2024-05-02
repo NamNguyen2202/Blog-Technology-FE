@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ApiService } from './sign-up.service';
+import { SignInComponent } from '../sign-in/sign-in.component';
 import {
   Observable,
   Subject,
@@ -19,9 +20,8 @@ import {
   timer,
 } from 'rxjs';
 import { PASSWORD_PATTERN, PHONE_NUMBER_PATTERN } from './sign-up.data';
-import { Console } from 'console';
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-register',
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
 })
@@ -56,7 +56,7 @@ export class SignupComponent implements OnInit {
           Validators.pattern(/^[a-z]{6,32}$/i),
         ]),
         // validateUserNameFormApi(this.api),
-        this.validateUserNameFromApiDebounce(),
+        this.validateUserNameFromApiDebounce,
       ],
       phone: [
         '',
@@ -81,91 +81,35 @@ export class SignupComponent implements OnInit {
           Validators.required,
           Validators.minLength(6),
           Validators.pattern(PASSWORD_PATTERN),
-          this.confirmPasswordValidator,
+          this.passwordMatchValidator,
         ]),
       ],
     }
     // {
-    //   validator: this.confirmPasswordValidator,
-    //   // validator: this.validateMatchedControlsValue(
-    //   //   'password',
-    //   //   'confirmPassword'
-    //   // ),
+    //   validate: validateMatchedControlsValue('password', 'confirmPassword'),
     // }
   );
-  confirmPasswordValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
 
-    return password === confirmPassword ? null : { passwordMismatch: true };
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    return password &&
+      confirmPassword &&
+      password.value !== confirmPassword.value
+      ? { passwordMismatch: true }
+      : null;
   }
-  //   matchOtherValidator(otherControlName: string){
-  //   return (control: AbstractControl): {[key: string]: any} | null {
-  //     // Lấy ra control của trường khác
-  //     const otherControl = control.root.get(otherControlName);
-
-  //     // Kiểm tra xem giá trị của trường hiện tại có khớp với giá trị của trường khác không
-  //     if (otherControl && control.value !== otherControl.value) {
-  //       // Trả về một object chứa key 'matchOther' nếu không khớp
-  //       return { matchOther: true };
-  //     }
-
-  //     // Trường hợp khớp, trả về null
-  //     return null;
-  //   };
-  // }
-
-  // validateMatchedControlsValue(
-  //   firstControlName: string,
-  //   secondControlName: string
-  // ) {
-  //   return (formGroup: FormGroup): ValidationErrors | null => {
-  //     const firstControl = formGroup.get(firstControlName);
-  //     const secondControl = formGroup.get(secondControlName);
-  //     console.log(firstControl);
-  //     console.log(secondControl);
-
-  //     if (!firstControl || !secondControl) {
-  //       // Nếu không tìm thấy, trả về null
-  //       return null;
-  //     }
-
-  //     const firstControlValue = firstControl.value;
-  //     const secondControlValue = secondControl.value;
-
-  //     // Kiểm tra cả hai lỗi khớp mật khẩu và confirmPassword
-  //     return {
-  //       valueNotMatch: firstControlValue !== secondControlValue,
-  //       confirmPasswordErrors: secondControl.errors, // Bao gồm các lỗi tiềm ẩn trong confirmPassword
-  //     };
-  //   };
-  // }
-
-  // validateMatchedControlsValue(
-  //   firstControlName: string,
-  //   secondControlName: string
-  // ) {
-  //   return function (formGroup: FormGroup): ValidationErrors | null {
-  //     const { value: firstControlValue } = formGroup.get(
-  //       firstControlName
-  //     ) as AbstractControl;
-  //     const { value: secondControlValue } = formGroup.get(
-  //       secondControlName
-  //     ) as AbstractControl;
-  //     return firstControlValue === secondControlValue
-  //       ? null
-  //       : {
-  //           valueNotMatch: {
-  //             firstControlValue,
-  //             secondControlValue,
-  //           },
-  //         };
-  //   };
-  // }
-
-  submitForm() {
-    console.log(this.registerForm.value);
+  validateUserNameFormApi() {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.api.validateUsername(control.value).pipe(
+        map((isValid: Boolean) => {
+          return isValid ? null : { isvalidUserName: true };
+        })
+      );
+    };
   }
+
   validateUserNameFromApiDebounce() {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return timer(300).pipe(
@@ -185,13 +129,30 @@ export class SignupComponent implements OnInit {
       );
     };
   }
-  validateUserNameFormApi() {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.api.validateUsername(control.value).pipe(
-        map((isValid: Boolean) => {
-          return isValid ? null : { isvalidUserName: true };
-        })
-      );
-    };
+
+  // validateMatchedControlsValue = (
+  //   firstControlName: string,
+  //   secondControlName: string
+  // ) => {
+  //   return function (formGroup: FormGroup): ValidationErrors | null {
+  //     const { value: firstControlValue } = formGroup.get(
+  //       firstControlName
+  //     ) as AbstractControl;
+  //     const { value: secondControlValue } = formGroup.get(
+  //       secondControlName
+  //     ) as AbstractControl;
+  //     return firstControlValue === secondControlValue
+  //       ? null
+  //       : {
+  //           valueNotMatch: {
+  //             firstControlValue,
+  //             secondControlValue,
+  //           },
+  //         };
+  //   };
+  // };
+
+  submitForm() {
+    console.log(this.registerForm.value);
   }
 }
