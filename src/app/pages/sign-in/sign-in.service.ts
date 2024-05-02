@@ -20,4 +20,4 @@ export class ApiService {
     let isValid = existedPasswords.every((x) => x !== password);
     return of(isValid).pipe(delay(1000));
   }
-}
+}//1
