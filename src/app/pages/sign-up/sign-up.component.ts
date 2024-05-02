@@ -55,8 +55,8 @@ export class SignupComponent implements OnInit {
           Validators.minLength(6),
           Validators.pattern(/^[a-z]{6,32}$/i),
         ]),
-        // validateUserNameFormApi(this.api),
         this.validateUserNameFromApiDebounce,
+        // validateUserNameFormApi(this.api),
       ],
       phone: [
         '',
