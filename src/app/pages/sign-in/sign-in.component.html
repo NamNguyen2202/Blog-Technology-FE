@@ -1,43 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Animated Signin</title>
-  </head>
+<div class="container">
+  <form
+    class="login-form"
+    [formGroup]="loginForm"
+    autocomplete="off"
+    (ngSubmit)="formSubmit$.next(true)"
+  >
+    <h2 style="font-size: 30px">Đăng nhập</h2>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Tên đăng nhập</mat-label>
+        <input
+          matInput
+          placeholder="Tên đăng nhập"
+          formControlName="username"
+        />
+      </mat-form-field>
+      <!-- <div
+      class="info"
+      *ngIf="
+        registerForm.get('username')?.hasError('usernameDuplicated') &&
+        registerForm.get('username')?.dirty
+      "
+    >
+      Tên đăng nhập không tồn tại
+    </div> -->
+      <div *ngIf="loginForm.get('username')?.touched">
+        <div
+          class="info"
+          *ngIf="loginForm.get('username')?.hasError('required')"
+        >
+          Tên đăng nhập không được để trống
+        </div>
+        
+      
+          <div class="info" *ngIf="!loginForm.get('username')?.hasError('usernameNotFound')">
+            Tên đăng nhập không tồn tại
+          </div>
+          <!-- Các thông báo lỗi h khác cho tên đăng nhập -->
+    
+        
+        <!-- <div
+          class="info"
+          *ngIf="
+          loginForm.get('username')?.hasError('pattern') &&
+            !loginForm.get('username')?.hasError('required') &&
+            !loginForm.get('username')?.hasError('minlength')
+          "
+        >
+          Tên đăng nhập không hợp lệ
+        </div> -->
+      </div>
 
-  <body>
-    <div class="box">
-      <form autocomplete="off">
-        <h2>Đăng nhập</h2>
-        <div class="inputBox">
-          <input
-            type="text"
-            [(ngModel)]="signupOj.userName"
-            id="username"
-            name="userName"
-            required="required"
-          />
-          <span>Tên Đăng nhập</span>
-          <i></i>
-        </div>
-
-        <div class="inputBox">
-          <input
-            type="password"
-            [(ngModel)]="signupOj.cfpassword"
-            name="cfpassword"
-            id="cfpassword"
-            required="required"
-          />
-          <span> Mật khẩu</span>
-          <i></i>
-        </div>
-        <div class="links">
-          <a href="#">Bạn chưa có tài khoản ?</a>
-          <a routerLink="/sign-up" onclick="onclick()">Đăng kí</a>
-        </div>
-        <input type="submit" (click)="onSignup()" value="Đăng nhập" />
-      </form>
+      <!-- <pre>{{ registerForm.get("username")?.errors | json }}</pre> -->
     </div>
-  </body>
-</html>
+
+   
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Mật khẩu</mat-label>
+        <input
+          type="password"
+          matInput
+          placeholder="Mật khẩu"
+          formControlName="password"
+        />
+      </mat-form-field>
+      <div *ngIf="loginForm.get('password')?.touched">
+        <div
+          class="info"
+          *ngIf="loginForm.get('password')?.hasError('required')"
+        >
+          Mật khẩu không được để trống
+        </div>
+     
+        <div
+          class="info"
+          *ngIf="
+          loginForm.get('password')?.hasError('pattern') &&
+            !loginForm.get('password')?.hasError('required') &&
+            !loginForm.get('password')?.hasError('minlength')
+          "
+        >
+          Mật khẩu không hợp lệ
+        </div>
+      </div>
+    </div>
+   
+
+    <div class="row-control row-actions">
+      <button
+        style="padding: 5px 0; border-radius: 1px solid black"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Đăng kí
+      </button>
+    </div>
+    <pre>{{ loginForm.value | json }}</pre>
+  </form>
+</div>

@@ -1,36 +1,62 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { tap, switchMap, startWith, filter, take, Subject, Observable, timer, map } from 'rxjs';
+import { ApiService } from './sign-in.service';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.css',
+  styleUrls: ['./sign-in.component.css'],
 })
 export class SignInComponent {
-  signupOj: any = {
-    userName: '',
-    phone: '',
-    password: '',
-    cfpassword: '',
-  };
+  constructor(private fb: FormBuilder, private api: ApiService) {}
 
-  constructor(private Router: Router) {}
-  onClick() {
-    this.Router.navigateByUrl('sign-up'); // Replace with actual sign-in route path
-  }
-  onSignup() {
-    var passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$])[A-Za-z\d@#$]{8,}$/;
+  formSubmit$ = new Subject<boolean | null>();
+  loginForm = this.fb.group({
+    username: [
+      '',
+      Validators.compose([
+        Validators.required,
+        
+    
+      ]),
+      this.validateUserNameFromApiDebounce(),
+    ],
+    password: [
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+    ],
+  });
 
-    if (
-      this.signupOj.userName.trim() !== '' &&
-      passwordRegex.test(this.signupOj.password) &&
-      /^\d{10}$/.test(this.signupOj.phone) &&
-      this.signupOj.cfpassword === this.signupOj.password
-    ) {
-      this.Router.navigateByUrl('/login');
-    } else {
-      alert('Yêu cầu nhập đúng thông tin');
-    }
+  ngOnInit(): void {
+    this.formSubmit$
+      .pipe(
+        tap(() => this.loginForm.markAsDirty()),
+        switchMap(() => this.loginForm.statusChanges.pipe(
+          startWith(this.loginForm.status),
+          filter(status => status !== 'PENDING'),
+          take(1)
+        )),
+        filter(status => status === 'VALID'),
+        tap(() => this.submitForm())
+      )
+      .subscribe();
   }
+
+  submitForm() {
+    console.log(this.loginForm.value);
+  }
+  validateUserNameFromApiDebounce() {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return timer(300).pipe(
+        switchMap(() => this.api.validateUsername(control.value).pipe(
+          map(isValid => isValid ? null : { usernameNotFound: true })
+        ))
+      );
+    };
+  }
+  
 }
