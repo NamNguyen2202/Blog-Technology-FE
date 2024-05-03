@@ -15,17 +15,36 @@
             <li><a href="#">Giới thiệu</a></li>
             <li><a href="#">Bài viết</a></li>
             <li><a href="#">Liên hệ</a></li>
+            <li><a href="#">Khác</a></li>
           </ul>
         </nav>
       </div>
+      <div class="auth-buttons">
+        <button (click)="onSignUp()" nz-button nzType="primary">
+          Đăng nhập
+        </button>
+        <button class="sign-in" (click)="onSignIn()" nz-button nzType="default">
+          Đăng kí
+        </button>
+        <!-- Các nút đăng nhập và đăng ký -->
+        <!-- <button (click)="onSignUp()">Đăng nhập</button>
+        <button class="sign-in" (click)="onSignIn()">Đăng ký</button> -->
+      </div>
     </header>
 
-    <main></main>
+    <main>
+      <h1 style="margin: 50px 50px 0px 50px">Trang giới thiệu</h1>
+      <div>
+        <div>
+          <img
+            style="display: block; margin: 0 auto; width: 100%; padding: 60px"
+            src="https://lambanner.com/wp-content/uploads/2021/02/01-mnt-design-thiet-ke-anh-dai-dien-bai-viet-blog_optimized.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+    </main>
 
-    <!-- <footer>
-      <p>&copy; 2024 - Blog cá nhân</p>
-    </footer> -->
-
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
   </body>
 </html>
