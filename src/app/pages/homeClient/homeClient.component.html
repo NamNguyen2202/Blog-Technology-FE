@@ -27,12 +27,21 @@
           <li nz-menu-item>
             <a (click)="showArticleAllComponent()"> Tất cả bài viết</a>
           </li>
+          <li nz-menu-item>
+            <a (click)="showAddArticlesComponent()"> Thêm bài viết</a>
+          </li>
+          <li nz-menu-item>
+            <a> Cập nhật bài viết</a>
+          </li>
+          <li nz-menu-item>
+            <a> Xóa bài viết</a>
+          </li>
         </ul>
       </li>
-      <li nz-menu-item>
+      <!-- <li nz-menu-item>
         <span nz-icon nzType="edit"></span>
         <a (click)="showAddArticlesComponent()">Thêm bài viết</a>
-      </li>
+      </li> -->
     </ul>
   </nz-sider>
   <nz-layout>
@@ -43,22 +52,17 @@
         [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
         (click)="isCollapsed = !isCollapsed"
       ></span>
-      <!-- <button
-        style="float: right"
-        nz-button
-        [nzSize]="'small'"
-        nzType="primary"
+      <span
+        style="
+          display: inline-block;
+          margin: 0 auto;
+          float: right;
+          margin-right: 50px;
+        "
+        >Xin chào: User</span
       >
-        Đăng nhập
-      </button> -->
-      <!-- <button
-        style="display: flex"
-        nz-button
-        [nzSize]="'small'"
-        nzType="default"
-      >
-        Đăng kí
-      </button> -->
+      <button nz-button nzType="primary">Admin</button>
+      <!--  sử dụng cho admin -->
     </nz-header>
     <nz-content>
       <nz-breadcrumb

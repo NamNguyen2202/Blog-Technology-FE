@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrl: './test.component.css',
+  selector: 'app-homeClient',
+  templateUrl: './homeClient.component.html',
+  styleUrl: './homeClient.component.css',
 })
-export class TestComponent {
+export class homeClientComponent {
   showChangePassword = false;
   showAddArticle = false;
   showArticleMe = false;

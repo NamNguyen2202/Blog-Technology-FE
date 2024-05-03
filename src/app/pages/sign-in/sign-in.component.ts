@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css',
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
   signupOj: any = {
     userName: '',
     phone: '',
@@ -15,6 +15,7 @@ export class SignInComponent {
   };
 
   constructor(private Router: Router) {}
+  ngOnInit() {}
   onClick() {
     this.Router.navigateByUrl('sign-up'); // Replace with actual sign-in route path
   }

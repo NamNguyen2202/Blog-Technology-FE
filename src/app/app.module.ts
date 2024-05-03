@@ -34,7 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SignupComponent } from './pages/sign-up/sign-up.component';
-import { TestComponent } from './pages/test/test.component';
+import { homeClientComponent } from './pages/homeClient/homeClient.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { AddArticlesComponent } from './components/add-articles/add-articles.component';
 import { ArticleMeComponent } from './components/article-me/article-me.component';
@@ -49,7 +49,7 @@ registerLocaleData(en);
     SignInComponent,
     HomeComponent,
     SignupComponent,
-    TestComponent,
+    homeClientComponent,
     ChangePasswordComponent,
     AddArticlesComponent,
     ArticleMeComponent,
