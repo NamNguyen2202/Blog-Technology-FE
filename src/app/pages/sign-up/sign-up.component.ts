@@ -53,7 +53,8 @@ export class SignupComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
-          Validators.pattern(/^[a-z]{6,32}$/i),
+          Validators.maxLength(32),
+          Validators.pattern(/^[a-z0-9]{6,32}$/i),
         ]),
         this.validateUserNameFromApiDebounce,
         // validateUserNameFormApi(this.api),
@@ -63,6 +64,7 @@ export class SignupComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(10),
+          Validators.maxLength(10),
           Validators.pattern(PHONE_NUMBER_PATTERN),
         ]),
       ],
@@ -72,6 +74,7 @@ export class SignupComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
+          Validators.maxLength(32),
           Validators.pattern(PASSWORD_PATTERN),
         ]),
       ],
@@ -80,6 +83,7 @@ export class SignupComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
+          Validators.maxLength(32),
           Validators.pattern(PASSWORD_PATTERN),
           this.passwordMatchValidator,
         ]),

@@ -34,12 +34,35 @@
         <div
           class="info"
           *ngIf="
+            registerForm.get('username')?.hasError('maxlength') &&
+            !registerForm.get('username')?.hasError('minlength') &&
+            !registerForm.get('username')?.hasError('required')
+          "
+        >
+          Tên đăng nhập chỉ có thể có tối đa 32 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
             registerForm.get('username')?.hasError('pattern') &&
+            !registerForm.get('username')?.hasError('required') &&
+            !registerForm.get('username')?.hasError('maxlength') &&
+            !registerForm.get('username')?.hasError('minlength')
+          "
+        >
+          Tên đăng nhập không hợp lệ, bạn không được nhập tiếng việt có dấu.
+        </div>
+        <div
+          class="info"
+          *ngIf="
+            registerForm.get('username')?.hasError('usernameDuplicated') &&
+            !registerForm.get('username')?.hasError('pattern') &&
+            !registerForm.get('username')?.hasError('maxlength') &&
             !registerForm.get('username')?.hasError('required') &&
             !registerForm.get('username')?.hasError('minlength')
           "
         >
-          Tên đăng nhập không hợp lệ
+          Tên đăng nhập đã tồn tại!!Vui lòng thử lại tên đăng nhập khác!!
         </div>
       </div>
 
@@ -65,17 +88,29 @@
             !registerForm.get('phone')?.hasError('required')
           "
         >
-          Số điện thoại phải có ít nhất 6 ký tự
+          Số điện thoại phải có ít nhất 10 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+            registerForm.get('phone')?.hasError('maxlength') &&
+            !registerForm.get('phone')?.hasError('minlength') &&
+            !registerForm.get('phone')?.hasError('required')
+          "
+        >
+          Số điện thoại chỉ có tối đa 10 ký tự
         </div>
         <div
           class="info"
           *ngIf="
             registerForm.get('phone')?.hasError('pattern') &&
             !registerForm.get('phone')?.hasError('required') &&
+            !registerForm.get('phone')?.hasError('maxlength') &&
             !registerForm.get('phone')?.hasError('minlength')
           "
         >
-          Số điện thoại không hợp lệ
+          Số điện thoại không hợp lệ, bạn phải nhập bắt đầu bằng số 0 và toàn là
+          kí tự số
         </div>
       </div>
       <!-- <pre>{{ registerForm.get("phone")?.errors | json }}</pre> -->
@@ -109,12 +144,24 @@
         <div
           class="info"
           *ngIf="
-            registerForm.get('password')?.hasError('pattern') &&
-            !registerForm.get('password')?.hasError('required') &&
-            !registerForm.get('password')?.hasError('minlength')
+            registerForm.get('password')?.hasError('maxlength') &&
+            !registerForm.get('password')?.hasError('minlength') &&
+            !registerForm.get('password')?.hasError('required')
           "
         >
-          Mật khẩu không hợp lệ
+          Mật khẩu chỉ có thể có tối đa 32 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+            registerForm.get('password')?.hasError('pattern') &&
+            !registerForm.get('password')?.hasError('required') &&
+            !registerForm.get('password')?.hasError('minlength') &&
+            !registerForm.get('password')?.hasError('maxlength')
+          "
+        >
+          Mật khẩu không hợp lệ, mật khẩu phải chứa ít nhất 1 kí tự đặc biệt: Ví
+          dụ "#12345,!12345"
         </div>
       </div>
       <!-- <pre>{{ registerForm.get("password")?.errors | json }}</pre> -->
@@ -148,21 +195,35 @@
         <div
           class="info"
           *ngIf="
-            registerForm.get('confirmPassword')?.hasError('pattern') &&
-            !registerForm.get('confirmPassword')?.hasError('required') &&
-            !registerForm.get('confirmPassword')?.hasError('minlength')
+            registerForm.get('confirmPassword')?.hasError('maxlength') &&
+            !registerForm.get('confirmPassword')?.hasError('minlength') &&
+            !registerForm.get('confirmPassword')?.hasError('required')
           "
         >
-          Nhập lại mật khẩu không hợp lệ
+          Nhập lại mật khẩu chỉ có thể có tối đa 32 ký tự
+        </div>
+
+        <div
+          class="info"
+          *ngIf="
+            registerForm.get('confirmPassword')?.hasError('pattern') &&
+            !registerForm.get('confirmPassword')?.hasError('required') &&
+            !registerForm.get('confirmPassword')?.hasError('minlength') &&
+            !registerForm.get('confirmPassword')?.hasError('maxlength')
+          "
+        >
+          Nhập lại mật khẩu không hợp lệ, phải chứa ít nhất 1 kí tự đặc biệt: Ví
+          dụ: "#12345, !12345",
         </div>
         <div
           class="info"
           *ngIf="
-            !registerForm
+            registerForm
               .get('confirmPassword')
               ?.hasError('passwordMatchValidator') &&
             !registerForm.get('confirmPassword')?.hasError('pattern') &&
             !registerForm.get('confirmPassword')?.hasError('required') &&
+            !registerForm.get('confirmPassword')?.hasError('maxlength') &&
             !registerForm.get('confirmPassword')?.hasError('minlength')
           "
         >
@@ -181,6 +242,6 @@
         Đăng kí
       </button>
     </div>
-    <pre>{{ registerForm.value | json }}</pre>
+    <!-- <pre>{{ registerForm.value | json }}</pre> -->
   </form>
 </div>
