@@ -60,6 +60,7 @@ registerLocaleData(en);
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     NzButtonModule,
     HttpClientModule,
     IconsProviderModule,

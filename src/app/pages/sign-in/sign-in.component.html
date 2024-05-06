@@ -1,10 +1,6 @@
 <div class="container">
-  <form
-    class="login-form"
-    [formGroup]="loginForm"
-    autocomplete="off"
-    (ngSubmit)="formSubmit$.next(true)"
-  >
+  <form class="login-form" [formGroup]="formSignin"    autocomplete="off"
+    (ngSubmit)="formSubmit$.next(true)">
     <h2 style="font-size: 30px">Đăng nhập</h2>
     <div class="row-control">
       <mat-form-field appearance="outline">
@@ -15,46 +11,19 @@
           formControlName="username"
         />
       </mat-form-field>
-      <!-- <div
-      class="info"
-      *ngIf="
-        registerForm.get('username')?.hasError('usernameDuplicated') &&
-        registerForm.get('username')?.dirty
-      "
-    >
-      Tên đăng nhập không tồn tại
-    </div> -->
-      <div *ngIf="loginForm.get('username')?.touched">
-        <div
-          class="info"
-          *ngIf="loginForm.get('username')?.hasError('required')"
-        >
-          Tên đăng nhập không được để trống
-        </div>
-        
-      
-          <div class="info" *ngIf="!loginForm.get('username')?.hasError('usernameNotFound')">
+        <div *ngIf = "formSignin.get('username')?.touched">
+          <div *ngIf = "formSignin.get('username')!.hasError('required')">
+            Tên đăng nhập không được để trống
+          </div>
+          
+          <div *ngIf = "formSignin.get('username')!.hasError('usernameDuplicated')">
             Tên đăng nhập không tồn tại
           </div>
-          <!-- Các thông báo lỗi h khác cho tên đăng nhập -->
-    
-        
-        <!-- <div
-          class="info"
-          *ngIf="
-          loginForm.get('username')?.hasError('pattern') &&
-            !loginForm.get('username')?.hasError('required') &&
-            !loginForm.get('username')?.hasError('minlength')
-          "
-        >
-          Tên đăng nhập không hợp lệ
-        </div> -->
-      </div>
 
-      <!-- <pre>{{ registerForm.get("username")?.errors | json }}</pre> -->
+        </div>
+     
     </div>
 
-   
     <div class="row-control">
       <mat-form-field appearance="outline">
         <mat-label>Mật khẩu</mat-label>
@@ -65,27 +34,14 @@
           formControlName="password"
         />
       </mat-form-field>
-      <div *ngIf="loginForm.get('password')?.touched">
-        <div
-          class="info"
-          *ngIf="loginForm.get('password')?.hasError('required')"
-        >
+
+      <div *ngIf = "formSignin.get('password')?.touched">
+        <div *ngIf = "formSignin.get('password')!.hasError('required')">
           Mật khẩu không được để trống
         </div>
-     
-        <div
-          class="info"
-          *ngIf="
-          loginForm.get('password')?.hasError('pattern') &&
-            !loginForm.get('password')?.hasError('required') &&
-            !loginForm.get('password')?.hasError('minlength')
-          "
-        >
-          Mật khẩu không hợp lệ
-        </div>
-      </div>
+        
     </div>
-   
+    </div>
 
     <div class="row-control row-actions">
       <button
@@ -93,12 +49,13 @@
         mat-raised-button
         color="primary"
         type="submit"
-        [disabled]="loginForm.invalid"
+        [disabled]="formSignin.invalid "
       >
         Đăng kí
       </button>
     </div>
-    <pre>{{ loginForm.value | json }}</pre>
+    <!-- <pre>{{ formSignin.value | json }}</pre> -->
   </form>
 </div>
-//1
+
+
