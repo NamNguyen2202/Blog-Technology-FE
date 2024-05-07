@@ -1,12 +1,11 @@
 .container {
-	padding-top: 170px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
   }
   
-  .register-form {
+  .signin-form {
 	width: 400px;
 	padding: 20px;
 	border: 1px solid #ccc;
@@ -40,7 +39,27 @@
   }
   
   .info{
-	color: red;
 	text-align: center;
+	color: red;
   }
   
+  .sign-in {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+	/* Căn giữa theo chiều dọc */
+  }
+  
+  .sign-in span {
+	margin-right: 10px; /* Khoảng cách giữa text và link */
+  }
+  
+  .sign-in-link {
+	text-decoration: none;
+	color: #007bff; /* Màu của link */
+  }
+  
+  .sign-in-link:hover {
+	text-decoration: underline; /* Hiển thị gạch chân khi di chuột qua */
+  }
