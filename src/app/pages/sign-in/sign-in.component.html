@@ -1,7 +1,11 @@
 <div class="container">
-  <form class="login-form" [formGroup]="formSignin"    autocomplete="off"
-    (ngSubmit)="formSubmit$.next(true)">
-    <h2 style="font-size: 30px">Đăng nhập</h2>
+  <form
+    class="signin-form"
+    [formGroup]="formSignin"
+    autocomplete="off"
+    (ngSubmit)="formSubmit$.next(true)"
+  >
+    <h2 style="font-size: 30px">Đăng kí</h2>
     <div class="row-control">
       <mat-form-field appearance="outline">
         <mat-label>Tên đăng nhập</mat-label>
@@ -11,51 +15,81 @@
           formControlName="username"
         />
       </mat-form-field>
-        <div *ngIf = "formSignin.get('username')?.touched">
-          <div *ngIf = "formSignin.get('username')!.hasError('required')">
-            Tên đăng nhập không được để trống
-          </div>
-          
-          <div *ngIf = "formSignin.get('username')!.hasError('usernameDuplicated')">
-            Tên đăng nhập không tồn tại
-          </div>
-
+      <div *ngIf="formSignin.get('username')?.touched">
+        <div
+          class="info"
+          *ngIf="formSignin.get('username')!.hasError('required')"
+        >
+          Tên đăng nhập không được để trống
         </div>
-     
-    </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('username')!.hasError('minlength') &&
+            !formSignin.get('username')!.hasError('required')
+          "
+        >
+          Tên đăng nhập phải có ít nhất 6 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('username')!.hasError('maxlength') &&
+            !formSignin.get('username')!.hasError('minlength') &&
+            !formSignin.get('username')!.hasError('required')
+          "
+        >
+          Tên đăng nhập chỉ có thể có tối đa 32 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('username')!.hasError('pattern') &&
+            !formSignin.get('username')!.hasError('maxlength') &&
+            !formSignin.get('username')!.hasError('minlength') &&
+            !formSignin.get('username')!.hasError('required')
+          "
+        >
+          Tên đăng nhập không hợp lệ, bạn không được nhập tiếng việt có dấu.
+        </div>       
+      </div>
+    </div> 
 
     <div class="row-control">
       <mat-form-field appearance="outline">
         <mat-label>Mật khẩu</mat-label>
         <input
-          type="password"
+          type="{{ hidePassword ? 'password' : 'text' }}"
           matInput
           placeholder="Mật khẩu"
           formControlName="password"
         />
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
       </mat-form-field>
-
-      <div *ngIf = "formSignin.get('password')?.touched">
-        <div *ngIf = "formSignin.get('password')!.hasError('required')">
+      <div *ngIf="formSignin.get('password')?.touched">
+        <div
+          class="info"
+          *ngIf="formSignin.get('password')!.hasError('required')"
+        >
           Mật khẩu không được để trống
         </div>
-        
+    
     </div>
     </div>
-
     <div class="row-control row-actions">
       <button
-        style="padding: 5px 0; border-radius: 1px solid black"
         mat-raised-button
         color="primary"
         type="submit"
-        [disabled]="formSignin.invalid "
+        [disabled]="formSignin.invalid"
+        (click)="onSignin()"
       >
-        Đăng kí
+        Đăng nhập
       </button>
     </div>
-    <!-- <pre>{{ formSignin.value | json }}</pre> -->
   </form>
 </div>
-
-

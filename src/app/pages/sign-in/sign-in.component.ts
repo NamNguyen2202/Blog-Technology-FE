@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators,  FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormGroup, Validators,  FormControl, AbstractControl, ValidationErrors, FormBuilder } from '@angular/forms';
 import { ApiService } from './sign-in.service';
 import { Observable, Subject, map } from 'rxjs';
-import { PASSWORD_PATTERN } from './sign-up.data';
-
+import { PASSWORD_PATTERN, USERNAME_PATTERN } from './sign-in.data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,8 +11,11 @@ import { PASSWORD_PATTERN } from './sign-up.data';
   styleUrls: ['./sign-in.component.css'],
 })
 export class SignInComponent implements OnInit {
-  constructor(private api: ApiService) {}
-
+  constructor(
+    private fb: FormBuilder,
+    private api: ApiService,
+    private Router: Router
+  ) {}
   ngOnInit(): void {
   }
 
@@ -40,12 +43,9 @@ export class SignInComponent implements OnInit {
             Validators.required,
             Validators.minLength(6),
             Validators.maxLength(32),
-            Validators.pattern(/^[a-z0-9]{6,32}$/i),
-          ],
-          [this.validateUserNameFromApiDebounce()]      
+            Validators.pattern(USERNAME_PATTERN),
+          ],      
          ),
-  
-
   
         password: new FormControl('', [
           Validators.required,
@@ -62,14 +62,13 @@ export class SignInComponent implements OnInit {
  
 
   onSignin(){
-    // this.api.validateUsername(this.formSignin.value).subscribe((res:any)=>{
-    //   console.log(this.formSignin.value)
-    // } ),
-    // this.api.validatePassword(this.formSignin.value).subscribe((res:any)=>{
-    //   console.log(this.formSignin.value)
-    // } )
-    
-    
+    console.log(this.formSignin.value) 
+      
+  }
+
+  hidePassword: boolean = true;
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
   }
 
   
