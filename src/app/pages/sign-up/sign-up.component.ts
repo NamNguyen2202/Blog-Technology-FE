@@ -168,10 +168,7 @@ export class SignupComponent implements OnInit {
   }
   validateUserNameFromApiDebounce() {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return timer(300).pipe(
-        // dung de xu li sau 300ms khi ket thuc go mo call api
-        switchMap(() =>
-          this.api.validateUsername(control.value).pipe(
+      return this.api.validateUsername(control.value).pipe(
             map((isValid) => {
               if (isValid) {
                 return null;
@@ -180,18 +177,16 @@ export class SignupComponent implements OnInit {
                 usernameDuplicated: true,
               };
             })
-          )
-        )
-      );
+          );      
     };
   }
-  validateUserNameFormApi() {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.api.validateUsername(control.value).pipe(
-        map((isValid: Boolean) => {
-          return isValid ? null : { isvalidUserName: true };
-        })
-      );
-    };
-  }
+  // validateUserNameFormApi() {
+  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
+  //     return this.api.validateUsername(control.value).pipe(
+  //       map((isValid: Boolean) => {
+  //         return isValid ? null : { isvalidUserName: true };
+  //       })
+  //     );
+  //   };
+  // }
 }

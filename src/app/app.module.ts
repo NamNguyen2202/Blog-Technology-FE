@@ -31,6 +31,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SignupComponent } from './pages/sign-up/sign-up.component';
@@ -60,6 +61,7 @@ registerLocaleData(en);
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     NzButtonModule,
     HttpClientModule,
     IconsProviderModule,
@@ -76,6 +78,7 @@ registerLocaleData(en);
     MatFormFieldModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatIconModule
   ],
   providers: [
     provideClientHydration(),
