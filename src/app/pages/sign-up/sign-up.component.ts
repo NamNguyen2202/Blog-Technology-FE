@@ -133,7 +133,6 @@ export class SignupComponent implements OnInit {
     }
   );
 
-
   validateUserNameFormApi() {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.api.validateUsername(control.value).pipe(
@@ -146,55 +145,6 @@ export class SignupComponent implements OnInit {
   submitForm() {
     console.log(this.registerForm.value);
   }
-=======
-  // validateMatchedControlsValue(
-  //   firstControlName: string,
-  //   secondControlName: string
-  // ) {
-  //   return (formGroup: FormGroup): ValidationErrors | null => {
-  //     const firstControl = formGroup.get(firstControlName);
-  //     const secondControl = formGroup.get(secondControlName);
-  //     console.log(firstControl);
-  //     console.log(secondControl);
-
-  //     if (!firstControl || !secondControl) {
-  //       // Nếu không tìm thấy, trả về null
-  //       return null;
-  //     }
-
-  //     const firstControlValue = firstControl.value;
-  //     const secondControlValue = secondControl.value;
-
-  //     // Kiểm tra cả hai lỗi khớp mật khẩu và confirmPassword
-  //     return {
-  //       valueNotMatch: firstControlValue !== secondControlValue,
-  //       confirmPasswordErrors: secondControl.errors, // Bao gồm các lỗi tiềm ẩn trong confirmPassword
-  //     };
-  //   };
-  // }
-
-  // validateMatchedControlsValue(
-  //   firstControlName: string,
-  //   secondControlName: string
-  // ) {
-  //   return function (formGroup: FormGroup): ValidationErrors | null {
-  //     const { value: firstControlValue } = formGroup.get(
-  //       firstControlName
-  //     ) as AbstractControl;
-  //     const { value: secondControlValue } = formGroup.get(
-  //       secondControlName
-  //     ) as AbstractControl;
-  //     return firstControlValue === secondControlValue
-  //       ? null
-  //       : {
-  //           valueNotMatch: {
-  //             firstControlValue,
-  //             secondControlValue,
-  //           },
-  //         };
-  //   };
-  // }
-
   submitForm() {
     console.log(this.registerForm.value);
   }
@@ -212,14 +162,5 @@ export class SignupComponent implements OnInit {
           );      
     };
   }
-  // validateUserNameFormApi() {
-  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
-  //     return this.api.validateUsername(control.value).pipe(
-  //       map((isValid: Boolean) => {
-  //         return isValid ? null : { isvalidUserName: true };
-  //       })
-  //     );
-  //   };
-  // }
 
 }
