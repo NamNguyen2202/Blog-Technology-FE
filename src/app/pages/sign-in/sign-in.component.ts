@@ -58,13 +58,26 @@ export class SignInComponent implements OnInit {
     );
   
 
-
+    onSignin() {
+      this.validateUserNameFromApiDebounce()(this.formSignin.get('username')!).subscribe(validationResult => {
+        if (validationResult) {
+          this.formSignin.get('username')!.setErrors(validationResult);
+        } else {
+          this.Router.navigateByUrl('');
+        }
+      });
+    }
+    
  
 
-  onSignin(){
-    console.log(this.formSignin.value) 
-      
-  }
+
+
+  // onSignin(){
+  //   // console.log(this.formSignin.value) 
+  //   // this.Router.navigateByUrl('sign-up');
+    
+  // }
+
 
   hidePassword: boolean = true;
   togglePasswordVisibility(): void {

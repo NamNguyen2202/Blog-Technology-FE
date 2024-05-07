@@ -50,8 +50,14 @@
             !formSignin.get('username')!.hasError('required')
           "
         >
-          Tên đăng nhập không hợp lệ, bạn không được nhập tiếng việt có dấu.
-        </div>       
+          Tên đăng nhập không hợp lệ, bạn không được nhập tiếng việt có dấu và dấu cách.
+        </div>  
+        
+        <div *ngIf="formSignin.get('username')?.errors && formSignin.get('username')?.dirty">
+          <div class="info" *ngIf="formSignin.get('username')!.hasError('usernameDuplicated')">
+            Tên đăng nhập không tồn tại trong hệ thống
+          </div>
+        </div>
       </div>
     </div> 
 
@@ -79,7 +85,13 @@
         </div>
     
     </div>
+    
     </div>
+    <div class="sign-up">
+      <span>Bạn đã có tài khoản? </span>
+      <a (click)="onSignin()" class="sign-up-link">Đăng ký</a>
+    </div>
+    <br>
     <div class="row-control row-actions">
       <button
         mat-raised-button
