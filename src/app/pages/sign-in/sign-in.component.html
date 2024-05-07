@@ -5,7 +5,7 @@
     autocomplete="off"
     (ngSubmit)="formSubmit$.next(true)"
   >
-    <h2 style="font-size: 30px">Đăng kí</h2>
+    <h2 style="font-size: 30px">Đăng nhập</h2>
     <div class="row-control">
       <mat-form-field appearance="outline">
         <mat-label>Tên đăng nhập</mat-label>
@@ -83,12 +83,42 @@
         >
           Mật khẩu không được để trống
         </div>
-    
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('password')!.hasError('minlength') &&
+            !formSignin.get('password')!.hasError('required')
+          "
+        >
+          Mật khẩu phải có ít nhất 6 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('password')!.hasError('maxlength') &&
+            !formSignin.get('password')!.hasError('minlength') &&
+            !formSignin.get('password')!.hasError('required')
+          "
+        >
+          Mật khẩu chỉ có thể có tối đa 32 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('password')!.hasError('pattern') &&
+            !formSignin.get('password')!.hasError('required') &&
+            !formSignin.get('password')!.hasError('minlength') &&
+            !formSignin.get('password')!.hasError('maxlength')
+          "
+        >
+          Mật khẩu không hợp lệ, mật khẩu phải chứa ít nhất 1 kí tự đặc biệt: Ví
+          dụ "#12345,!12345"
+        </div>
+      </div>
     </div>
-    
-    </div>
+
     <div class="sign-up">
-      <span>Bạn đã có tài khoản? </span>
+      <span>Bạn chưa có tài khoản? </span>
       <a (click)="onSignin()" class="sign-up-link">Đăng ký</a>
     </div>
     <br>
