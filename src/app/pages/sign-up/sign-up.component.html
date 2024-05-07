@@ -58,6 +58,17 @@
         >
           Tên đăng nhập đã tồn tại!!Vui lòng thử lại tên đăng nhập khác!!
         </div>
+        <div
+          class="info"
+          *ngIf="
+            !registerForm.get('username')?.hasError('usernameDuplicated') &&
+            !registerForm.get('username')?.hasError('pattern') &&
+            !registerForm.get('username')?.hasError('required') &&
+            !registerForm.get('username')?.hasError('minlength')
+          "
+        >
+          Tên đăng nhập đã tồn tại!!
+        </div>
       </div>
     </div>
 

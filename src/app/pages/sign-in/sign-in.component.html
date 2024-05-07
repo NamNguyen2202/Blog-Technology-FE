@@ -1,43 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Animated Signin</title>
-  </head>
+<div class="container">
+  <form
+    class="signin-form"
+    [formGroup]="formSignin"
+    autocomplete="off"
+    (ngSubmit)="formSubmit$.next(true)"
+  >
+    <h2 style="font-size: 30px">Đăng nhập</h2>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Tên đăng nhập</mat-label>
+        <input
+          matInput
+          placeholder="Tên đăng nhập"
+          formControlName="username"
+        />
+      </mat-form-field>
+      <div *ngIf="formSignin.get('username')?.touched">
+        <div
+          class="info"
+          *ngIf="formSignin.get('username')!.hasError('required')"
+        >
+          Tên đăng nhập không được để trống
+        </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('username')!.hasError('minlength') &&
+            !formSignin.get('username')!.hasError('required')
+          "
+        >
+          Tên đăng nhập phải có ít nhất 6 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('username')!.hasError('maxlength') &&
+            !formSignin.get('username')!.hasError('minlength') &&
+            !formSignin.get('username')!.hasError('required')
+          "
+        >
+          Tên đăng nhập chỉ có thể có tối đa 32 ký tự
+        </div>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('username')!.hasError('pattern') &&
+            !formSignin.get('username')!.hasError('maxlength') &&
+            !formSignin.get('username')!.hasError('minlength') &&
+            !formSignin.get('username')!.hasError('required')
+          "
+        >
+          Tên đăng nhập không hợp lệ, bạn không được nhập tiếng việt có dấu và dấu cách.
+        </div>  
+        
+        <div *ngIf="formSignin.get('username')?.errors && formSignin.get('username')?.dirty">
+          <div class="info" *ngIf="formSignin.get('username')!.hasError('usernameDuplicated')">
+            Tên đăng nhập không tồn tại trong hệ thống
+          </div>
+        </div>
+      </div>
+    </div> 
 
-  <body>
-    <div class="box">
-      <form autocomplete="off">
-        <h2>Đăng nhập</h2>
-        <div class="inputBox">
-          <input
-            type="text"
-            [(ngModel)]="signupOj.userName"
-            id="username"
-            name="userName"
-            required="required"
-          />
-          <span>Tên Đăng nhập</span>
-          <i></i>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Mật khẩu</mat-label>
+        <input
+          type="{{ hidePassword ? 'password' : 'text' }}"
+          matInput
+          placeholder="Mật khẩu"
+          formControlName="password"
+        />
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div *ngIf="formSignin.get('password')?.touched">
+        <div
+          class="info"
+          *ngIf="formSignin.get('password')!.hasError('required')"
+        >
+          Mật khẩu không được để trống
         </div>
-
-        <div class="inputBox">
-          <input
-            type="password"
-            [(ngModel)]="signupOj.cfpassword"
-            name="cfpassword"
-            id="cfpassword"
-            required="required"
-          />
-          <span> Mật khẩu</span>
-          <i></i>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('password')!.hasError('minlength') &&
+            !formSignin.get('password')!.hasError('required')
+          "
+        >
+          Mật khẩu phải có ít nhất 6 ký tự
         </div>
-        <div class="links">
-          <a href="#">Bạn chưa có tài khoản ?</a>
-          <a routerLink="/sign-up" onclick="onclick()">Đăng kí</a>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('password')!.hasError('maxlength') &&
+            !formSignin.get('password')!.hasError('minlength') &&
+            !formSignin.get('password')!.hasError('required')
+          "
+        >
+          Mật khẩu chỉ có thể có tối đa 32 ký tự
         </div>
-        <input type="submit" (click)="onSignup()" value="Đăng nhập" />
-      </form>
+        <div
+          class="info"
+          *ngIf="
+          formSignin.get('password')!.hasError('pattern') &&
+            !formSignin.get('password')!.hasError('required') &&
+            !formSignin.get('password')!.hasError('minlength') &&
+            !formSignin.get('password')!.hasError('maxlength')
+          "
+        >
+          Mật khẩu không hợp lệ, mật khẩu phải chứa ít nhất 1 kí tự đặc biệt: Ví
+          dụ "#12345,!12345"
+        </div>
+      </div>
     </div>
-  </body>
-</html>
+
+    <div class="sign-up">
+      <span>Bạn chưa có tài khoản? </span>
+      <a (click)="onSignin()" class="sign-up-link">Đăng ký</a>
+    </div>
+    <br>
+    <div class="row-control row-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="formSignin.invalid"
+        (click)="onSignin()"
+      >
+        Đăng nhập
+      </button>
+    </div>
+  </form>
+</div>

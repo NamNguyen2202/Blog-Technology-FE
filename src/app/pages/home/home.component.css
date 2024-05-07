@@ -23,6 +23,8 @@ header {
 h1 {
   margin: 0;
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 40px;
 }
 
 h1 a {
@@ -81,3 +83,20 @@ footer {
   color: #fff;
   margin-left: 10px; /* Khoảng cách giữa hai nút */
 }
+
+.auth-buttons {
+  float: right; /* Đặt các nút ở góc phải */
+}
+
+.auth-buttons button {
+  margin-left: 10px;
+  width: 150px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.sign-in{
+  margin-right: 40px;
+}
+
+
