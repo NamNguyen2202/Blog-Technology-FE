@@ -41,6 +41,7 @@ import { AddArticlesComponent } from './components/add-articles/add-articles.com
 import { ArticleMeComponent } from './components/article-me/article-me.component';
 import { ArticleAllComponent } from './components/article-all/article-all.component';
 import { PerInfoComponent } from './components/per-info/per-info.component';
+import { MatIconModule } from '@angular/material/icon';
 
 registerLocaleData(en);
 
@@ -78,7 +79,11 @@ registerLocaleData(en);
     MatFormFieldModule,
     MatCheckboxModule,
     MatButtonModule,
+
+    MatIconModule,
+=======
     MatIconModule
+
   ],
   providers: [
     provideClientHydration(),

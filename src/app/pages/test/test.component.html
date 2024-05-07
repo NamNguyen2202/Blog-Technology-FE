@@ -1,7 +1,17 @@
 <nz-layout>
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <div class="logo"></div>
+    <div class="logo">Logo</div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-submenu nzTitle="Bài viết" nzIcon="snippets">
+        <ul>
+          <li nz-menu-item>
+            <a (click)="showArticleMeComponent()"> Bài viết của tôi</a>
+          </li>
+          <li nz-menu-item>
+            <a (click)="showArticleAllComponent()"> Tất cả bài viết</a>
+          </li>
+        </ul>
+      </li>
       <li nz-submenu nzTitle="User" nzIcon="user">
         <ul>
           <li nz-menu-item>
@@ -19,17 +29,8 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Bài viết" nzIcon="snippets">
-        <ul>
-          <li nz-menu-item>
-            <a (click)="showArticleMeComponent()"> Bài viết của tôi</a>
-          </li>
-          <li nz-menu-item>
-            <a (click)="showArticleAllComponent()"> Tất cả bài viết</a>
-          </li>
-        </ul>
-      </li>
-      <li nz-menu-item>
+
+      <!-- <li nz-menu-item>
         <span nz-icon nzType="edit"></span>
         <a (click)="showAddArticlesComponent()">Thêm bài viết</a>
       </li>
@@ -43,11 +44,8 @@
         [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
         (click)="isCollapsed = !isCollapsed"
       ></span>
-      <!-- <button
-        style="float: right"
-        nz-button
-        [nzSize]="'small'"
-        nzType="primary"
+      <span style="margin: 0 auto; float: right; margin-right: 50px"
+        >Xin chào: User</span
       >
         Đăng nhập
       </button> -->

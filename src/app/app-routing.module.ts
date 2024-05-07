@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignupComponent } from './pages/sign-up/sign-up.component';
 import { HomeComponent } from './pages/home/home.component';
-import { TestComponent } from './pages/test/test.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { TestComponent } from './pages/test/test.component';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },

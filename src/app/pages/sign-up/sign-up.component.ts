@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ApiService } from './sign-up.service';
+import { SignInComponent } from '../sign-in/sign-in.component';
 import {
   Observable,
   Subject,
@@ -18,15 +21,23 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { PASSWORD_PATTERN, PHONE_NUMBER_PATTERN } from './sign-up.data';
-import { Console } from 'console';
+import {
+  PASSWORD_PATTERN,
+  PHONE_NUMBER_PATTERN,
+  USERNAME_PATTERN,
+} from './sign-up.data';
+import { Router } from '@angular/router';
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-register',
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
 })
 export class SignupComponent implements OnInit {
-  constructor(private fb: FormBuilder, private api: ApiService) {}
+  constructor(
+    private fb: FormBuilder,
+    private api: ApiService,
+    private Router: Router
+  ) {}
   ngOnInit(): void {
     this.formSubmit$
       .pipe(
@@ -45,76 +56,97 @@ export class SignupComponent implements OnInit {
       )
       .subscribe();
   }
-  formSubmit$ = new Subject<boolean | null>();
-  registerForm = this.fb.group(
-    {
-      username: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(6),
-          Validators.pattern(/^[a-z]{6,32}$/i),
-        ]),
-        // validateUserNameFormApi(this.api),
-        this.validateUserNameFromApiDebounce(),
-      ],
-      phone: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(10),
-          Validators.pattern(PHONE_NUMBER_PATTERN),
-        ]),
-      ],
 
-      password: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(6),
-          Validators.pattern(PASSWORD_PATTERN),
-        ]),
-      ],
-      confirmPassword: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(6),
-          Validators.pattern(PASSWORD_PATTERN),
-          this.confirmPasswordValidator,
-        ]),
-      ],
-    }
-    // {
-    //   validator: this.confirmPasswordValidator,
-    //   // validator: this.validateMatchedControlsValue(
-    //   //   'password',
-    //   //   'confirmPassword'
-    //   // ),
-    // }
-  );
-  confirmPasswordValidator(control: AbstractControl): ValidationErrors | null {
+  onSignIn() {
+    this.Router.navigateByUrl('sign-in');
+  }
+  hidePassword: boolean = true;
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+  hideConfirmPassword: boolean = true;
+  toggleConfirmPasswordVisibility(): void {
+    this.hideConfirmPassword = !this.hideConfirmPassword;
+  }
+  formSubmit$ = new Subject<boolean | null>();
+
+  validateUserNameFromApiDebounce() {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.api.validateUsername(control.value).pipe(
+        map((isValid) => {
+          if (isValid) {
+            return null;
+          }
+          return {
+            usernameDuplicated: true,
+          };
+        })
+      );
+    };
+  }
+  passwordMatchValidator: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
+    const error =
+      password && confirmPassword && password !== confirmPassword
+        ? { passwordMatchValidator: true }
+        : null;
+    return error;
+  };
+  registerForm = new FormGroup(
+    {
+      username: new FormControl(
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(32),
+          Validators.pattern(USERNAME_PATTERN),
+        ],
+        [this.validateUserNameFromApiDebounce()]
+      ),
 
-    return password === confirmPassword ? null : { passwordMismatch: true };
+      phone: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10),
+        Validators.pattern(PHONE_NUMBER_PATTERN),
+      ]),
+
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(32),
+        Validators.pattern(PASSWORD_PATTERN),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(32),
+        Validators.pattern(PASSWORD_PATTERN),
+      ]),
+    },
+    {
+      validators: [this.passwordMatchValidator],
+    }
+  );
+
+
+  validateUserNameFormApi() {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.api.validateUsername(control.value).pipe(
+        map((isValid: Boolean) => {
+          return isValid ? null : { isvalidUserName: true };
+        })
+      );
+    };
   }
-  //   matchOtherValidator(otherControlName: string){
-  //   return (control: AbstractControl): {[key: string]: any} | null {
-  //     // Lấy ra control của trường khác
-  //     const otherControl = control.root.get(otherControlName);
-
-  //     // Kiểm tra xem giá trị của trường hiện tại có khớp với giá trị của trường khác không
-  //     if (otherControl && control.value !== otherControl.value) {
-  //       // Trả về một object chứa key 'matchOther' nếu không khớp
-  //       return { matchOther: true };
-  //     }
-
-  //     // Trường hợp khớp, trả về null
-  //     return null;
-  //   };
-  // }
-
+  submitForm() {
+    console.log(this.registerForm.value);
+  }
+=======
   // validateMatchedControlsValue(
   //   firstControlName: string,
   //   secondControlName: string
@@ -189,4 +221,5 @@ export class SignupComponent implements OnInit {
   //     );
   //   };
   // }
+
 }
