@@ -9,7 +9,10 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   constructor(private router: Router) {}
   isCollapsed = false;
-  onClick() {
+  onSignUp() {
+    this.router.navigateByUrl('sign-up'); // Replace with actual sign-in route path
+  }
+  onSignIn() {
     this.router.navigateByUrl('sign-in'); // Replace with actual sign-in route path
   }
 }

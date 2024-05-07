@@ -21,7 +21,11 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { PASSWORD_PATTERN, PHONE_NUMBER_PATTERN } from './sign-up.data';
+import {
+  PASSWORD_PATTERN,
+  PHONE_NUMBER_PATTERN,
+  USERNAME_PATTERN,
+} from './sign-up.data';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
@@ -53,6 +57,9 @@ export class SignupComponent implements OnInit {
       .subscribe();
   }
 
+  onSignIn() {
+    this.Router.navigateByUrl('sign-in');
+  }
   hidePassword: boolean = true;
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
@@ -61,12 +68,7 @@ export class SignupComponent implements OnInit {
   toggleConfirmPasswordVisibility(): void {
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }
-  onClick() {
-    this.Router.navigateByUrl(''); // Replace with actual sign-in route path
-  }
   formSubmit$ = new Subject<boolean | null>();
-
-  // Định nghĩa hàm validator
 
   validateUserNameFromApiDebounce() {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -101,12 +103,11 @@ export class SignupComponent implements OnInit {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(32),
-          Validators.pattern(/^[a-z0-9]{6,32}$/i),
+          Validators.pattern(USERNAME_PATTERN),
         ],
         [this.validateUserNameFromApiDebounce()]
       ),
 
-      // validateUserNameFormApi(this.api),
       phone: new FormControl('', [
         Validators.required,
         Validators.minLength(10),
@@ -125,7 +126,6 @@ export class SignupComponent implements OnInit {
         Validators.minLength(6),
         Validators.maxLength(32),
         Validators.pattern(PASSWORD_PATTERN),
-        // this.passwordMatchValidator('password', 'confirmPassword'),
       ]),
     },
     {
@@ -142,29 +142,6 @@ export class SignupComponent implements OnInit {
       );
     };
   }
-
-  // validateMatchedControlsValue = (
-  //   firstControlName: string,
-  //   secondControlName: string
-  // ) => {
-  //   return function (formGroup: FormGroup): ValidationErrors | null {
-  //     const { value: firstControlValue } = formGroup.get(
-  //       firstControlName
-  //     ) as AbstractControl;
-  //     const { value: secondControlValue } = formGroup.get(
-  //       secondControlName
-  //     ) as AbstractControl;
-  //     return firstControlValue === secondControlValue
-  //       ? null
-  //       : {
-  //           valueNotMatch: {
-  //             firstControlValue,
-  //             secondControlValue,
-  //           },
-  //         };
-  //   };
-  // };
-
   submitForm() {
     console.log(this.registerForm.value);
   }

@@ -59,8 +59,6 @@
           Tên đăng nhập đã tồn tại!!Vui lòng thử lại tên đăng nhập khác!!
         </div>
       </div>
-
-      <!-- <pre>{{ registerForm.get("username")?.errors | json }}</pre> -->
     </div>
 
     <div class="row-control">
@@ -107,7 +105,6 @@
           kí tự số
         </div>
       </div>
-      <!-- <pre>{{ registerForm.get("phone")?.errors | json }}</pre> -->
     </div>
     <div class="row-control">
       <mat-form-field appearance="outline">
@@ -163,7 +160,6 @@
           dụ "#12345,!12345"
         </div>
       </div>
-      <!-- <pre>{{ registerForm.get("password")?.errors | json }}</pre> -->
     </div>
     <div class="row-control">
       <mat-form-field appearance="outline">
@@ -234,7 +230,10 @@
           Mật khẩu không khớp!!
         </div>
       </div>
-      <!-- <pre>{{ registerForm.get("confirmPassword")?.errors | json }}</pre> -->
+    </div>
+    <div class="sign-in">
+      <span>Bạn đã có tài khoản? </span>
+      <a (click)="onSignIn()" class="sign-in-link">Đăng nhập</a>
     </div>
     <div class="row-control row-actions">
       <button
@@ -246,6 +245,5 @@
         Đăng kí
       </button>
     </div>
-    <!-- <pre>{{ registerForm.value | json }}</pre> -->
   </form>
 </div>
