@@ -145,22 +145,4 @@ export class SignupComponent implements OnInit {
   submitForm() {
     console.log(this.registerForm.value);
   }
-  submitForm() {
-    console.log(this.registerForm.value);
-  }
-  validateUserNameFromApiDebounce() {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.api.validateUsername(control.value).pipe(
-            map((isValid) => {
-              if (isValid) {
-                return null;
-              }
-              return {
-                usernameDuplicated: true,
-              };
-            })
-          );      
-    };
-  }
-
 }

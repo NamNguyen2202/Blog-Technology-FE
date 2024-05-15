@@ -29,83 +29,53 @@
           </li>
         </ul>
       </li>
-
-      <!-- <li nz-menu-item>
-        <span nz-icon nzType="edit"></span>
-        <a (click)="showAddArticlesComponent()">Thêm bài viết</a>
-      </li>
-    </ul>
-  </nz-sider>
-  <nz-layout>
-    <nz-header>
-      <span
-        class="trigger"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></span>
-      <span style="margin: 0 auto; float: right; margin-right: 50px"
-        >Xin chào: User</span
-      >
-        Đăng nhập
-      </button> -->
-      <!-- <button
-        style="display: flex"
-        nz-button
-        [nzSize]="'small'"
-        nzType="default"
-      >
-        Đăng kí
-      </button> -->
-    </nz-header>
-    <nz-content>
-      <nz-breadcrumb
-        *ngIf="
-          !showChangePassword &&
-          !showAddArticle &&
-          !showArticleMe &&
-          !showArticleAll &&
-          !showPerInfo
-        "
-      >
-        <nz-breadcrumb-item style="font-size: 30px"
-          >Trang chủ</nz-breadcrumb-item
+      <nz-content>
+        <nz-breadcrumb
+          *ngIf="
+            !showChangePassword &&
+            !showAddArticle &&
+            !showArticleMe &&
+            !showArticleAll &&
+            !showPerInfo
+          "
         >
-      </nz-breadcrumb>
-      <div
-        class="inner-content"
-        *ngIf="
-          !showChangePassword &&
-          !showAddArticle &&
-          !showArticleMe &&
-          !showArticleAll &&
-          !showPerInfo
-        "
-      >
-        Danh sách bài viết
-      </div>
-      <div *ngIf="showChangePassword">
-        <app-change-password></app-change-password>
-      </div>
+          <nz-breadcrumb-item style="font-size: 30px"
+            >Trang chủ</nz-breadcrumb-item
+          >
+        </nz-breadcrumb>
+        <div
+          class="inner-content"
+          *ngIf="
+            !showChangePassword &&
+            !showAddArticle &&
+            !showArticleMe &&
+            !showArticleAll &&
+            !showPerInfo
+          "
+        >
+          Danh sách bài viết
+        </div>
+        <div *ngIf="showChangePassword">
+          <app-change-password></app-change-password>
+        </div>
 
-      <div *ngIf="showArticleMe">
-        <app-article-me></app-article-me>
-      </div>
-      <!-- Hiển thị component AddArticles khi showAddArticle là true -->
-      <div *ngIf="showArticleAll">
-        <app-article-all></app-article-all>
-      </div>
-      <div *ngIf="showAddArticle">
-        <app-add-articles></app-add-articles>
-      </div>
-      <div *ngIf="showPerInfo">
-        <app-per-info></app-per-info>
-      </div>
-    </nz-content>
-    <footer>
-      <div style="text-align: center; margin: 0 auto">
-        <nz-pagination [nzPageIndex]="1" [nzTotal]="50"></nz-pagination>
-      </div>
-    </footer>
-  </nz-layout>
-</nz-layout>
+        <div *ngIf="showArticleMe">
+          <app-article-me></app-article-me>
+        </div>
+        <!-- Hiển thị component AddArticles khi showAddArticle là true -->
+        <div *ngIf="showArticleAll">
+          <app-article-all></app-article-all>
+        </div>
+        <div *ngIf="showAddArticle">
+          <app-add-articles></app-add-articles>
+        </div>
+        <div *ngIf="showPerInfo">
+          <app-per-info></app-per-info>
+        </div>
+      </nz-content>
+      <footer>
+        <div style="text-align: center; margin: 0 auto">
+          <nz-pagination [nzPageIndex]="1" [nzTotal]="50"></nz-pagination>
+        </div>
+      </footer></ul></nz-sider
+></nz-layout>

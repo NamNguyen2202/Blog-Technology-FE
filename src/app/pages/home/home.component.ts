@@ -11,14 +11,10 @@ export class HomeComponent {
   constructor(private router: Router) {}
 
   isCollapsed = false;
-  onSignUp() {
-    this.router.navigateByUrl('sign-up'); // Replace with actual sign-in route path
-=======
-  // isCollapsed = false;
+
   onSignUp() {
     this.router.navigateByUrl('sign-up'); // Replace with actual sign-in route path
     // this.signUpComponent.show();
-
   }
   onSignIn() {
     this.router.navigateByUrl('sign-in'); // Replace with actual sign-in route path
