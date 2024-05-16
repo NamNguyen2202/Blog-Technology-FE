@@ -10,7 +10,6 @@
       <mat-form-field appearance="outline">
         <mat-label>Tên đăng nhập</mat-label>
         <input
-          [(ngModel)]="user.userName"
           matInput
           placeholder="Tên đăng nhập"
           formControlName="username"
@@ -59,29 +58,13 @@
         >
           Tên đăng nhập đã tồn tại!!Vui lòng thử lại tên đăng nhập khác!!
         </div>
-        <div
-          class="info"
-          *ngIf="
-            !registerForm.get('username')?.hasError('usernameDuplicated') &&
-            !registerForm.get('username')?.hasError('pattern') &&
-            !registerForm.get('username')?.hasError('required') &&
-            !registerForm.get('username')?.hasError('minlength')
-          "
-        >
-          Tên đăng nhập đã tồn tại!!
-        </div>
       </div>
     </div>
 
     <div class="row-control">
       <mat-form-field appearance="outline">
         <mat-label>Số điện thoại</mat-label>
-        <input
-          matInput
-          placeholder="Số điện thoại"
-          formControlName="phone"
-          [(ngModel)]="user.phone"
-        />
+        <input matInput placeholder="Số điện thoại" formControlName="phone" />
       </mat-form-field>
       <div *ngIf="registerForm.get('phone')?.touched">
         <div
@@ -127,7 +110,6 @@
       <mat-form-field appearance="outline">
         <mat-label>Mật khẩu</mat-label>
         <input
-          [(ngModel)]="user.password"
           type="{{ hidePassword ? 'password' : 'text' }}"
           matInput
           placeholder="Mật khẩu"
@@ -239,11 +221,7 @@
         </div>
         <div
           class="info"
-          *ngIf="
-            registerForm
-              .get('confirmPassword')!
-              .hasError('passwordMatchValidator')
-          "
+          *ngIf="registerForm.hasError('passwordMatchValidator')"
         >
           Mật khẩu không khớp!!
         </div>

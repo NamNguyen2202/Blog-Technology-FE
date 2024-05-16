@@ -34,37 +34,34 @@ import { User } from '../../common/interfaces/user.interface';
   styleUrl: './sign-up.component.css',
 })
 export class SignupComponent implements OnInit {
-  user: User = {
-    userId: 0,
-    userName: '',
-    phone: '',
-    password: '',
-  };
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
-    private Router: Router,
-    private apiService: ApiService
+    private Router: Router
   ) {}
   ngOnInit(): void {}
   onSignUp() {
-    this.apiService
-      .SignUpCheck(this.user.userName)
-      .subscribe((result: boolean) => {
-        if (result) {
-          console.log('Tên người dùng đã tồn tại');
+    const user: User = {
+      userName: this.registerForm.get('username')!.value || '',
+      phone: this.registerForm.get('phone')!.value || '',
+      password: this.registerForm.get('password')!.value || '',
+    };
+    this.api.SignUp(user).subscribe({
+      next: (signUpResult: boolean) => {
+        if (signUpResult) {
+          console.log('Đăng ký thành công');
+          this.Router.navigateByUrl('test');
         } else {
-          this.apiService
-            .SignUp(this.user)
-            .subscribe((signUpResult: boolean) => {
-              if (signUpResult) {
-                this.Router.navigateByUrl('test');
-              } else {
-                console.log('Không đăng ký được');
-              }
-            });
+          console.log('Không đăng ký được');
         }
-      });
+      },
+      error: (error) => {
+        console.error('Có lỗi xảy ra:', error);
+      },
+      complete: () => {
+        console.log('Đăng ký hoàn tất');
+      },
+    });
   }
 
   onSignIn() {
@@ -80,20 +77,21 @@ export class SignupComponent implements OnInit {
   }
   formSubmit$ = new Subject<boolean | null>();
 
-  // validateUserNameFromApiDebounce() {
-  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
-  //     return this.api.validateUsername(control.value).pipe(
-  //       map((isValid) => {
-  //         if (isValid) {
-  //           return null;
-  //         }
-  //         return {
-  //           usernameDuplicated: true,
-  //         };
-  //       })
-  //     );
-  //   };
-  // }
+  validateUserNameFromApiDebounce() {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.api
+        .SignUpCheck(this.registerForm.get('username')!.value || '')
+        .pipe(
+          map((isDuplicated: boolean) => {
+            if (isDuplicated) {
+              return { usernameDuplicated: true };
+            } else {
+              return null;
+            }
+          })
+        );
+    };
+  }
   passwordMatchValidator: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
@@ -114,8 +112,8 @@ export class SignupComponent implements OnInit {
           Validators.minLength(6),
           Validators.maxLength(32),
           Validators.pattern(USERNAME_PATTERN),
-        ]
-        // [this.validateUserNameFromApiDebounce()]
+        ],
+        [this.validateUserNameFromApiDebounce()]
       ),
 
       phone: new FormControl('', [
@@ -143,15 +141,6 @@ export class SignupComponent implements OnInit {
     }
   );
 
-  // validateUserNameFormApi() {
-  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
-  //     return this.api.validateUsername(control.value).pipe(
-  //       map((isValid: Boolean) => {
-  //         return isValid ? null : { isvalidUserName: true };
-  //       })
-  //     );
-  //   };
-  // }
   submitForm() {
     console.log(this.registerForm.value);
   }
