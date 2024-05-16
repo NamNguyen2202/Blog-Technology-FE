@@ -7,10 +7,11 @@ import {
   ValidationErrors,
   FormBuilder,
 } from "@angular/forms";
-import { ApiService } from "./sign-in.service";
+import { SignInService } from "./sign-in.service";
 import { Observable, Subject, map } from "rxjs";
 import { PASSWORD_PATTERN, USERNAME_PATTERN } from "./sign-in.data";
 import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-sign-in",
@@ -20,30 +21,43 @@ import { Router } from "@angular/router";
 export class SignInComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
-    private api: ApiService,
-    private Router: Router
+    private api: SignInService,
+    private Router: Router,
+    httpclient: HttpClient
   ) {}
   ngOnInit(): void {}
 
   formSubmit$ = new Subject<boolean | null>();
 
-  validateUserNameFromApiDebounce() {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.api.validateUsername(control.value).pipe(
-        map((isValid) => {
-          if (!isValid) {
-            return null;
-          }
-          return {
-            usernameDuplicated: true,
-          };
-        })
-      );
+  onSignIn() {
+    const credentials = {
+      userName: this.formSignin.get("userName")!.value || "",
+      password: this.formSignin.get("password")!.value || "",
     };
+
+    // Kiểm tra thông tin đăng nhập với cơ sở dữ liệu
+    this.api.SignIn(credentials).subscribe({
+      next: (signInResult: boolean) => {
+        if (signInResult) {
+          console.log("Đăng nhập thành công");
+          this.Router.navigateByUrl("/");
+        } else {
+          console.log("Thông tin đăng nhập không đúng");
+          alert("Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.");
+        }
+      },
+      error: (error) => {
+        console.error("Có lỗi xảy ra:", error);
+        alert("Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại sau.");
+      },
+      complete: () => {
+        console.log("Đăng nhập hoàn tất");
+      },
+    });
   }
 
   formSignin = new FormGroup({
-    username: new FormControl("", [
+    userName: new FormControl("", [
       Validators.required,
       Validators.minLength(6),
       Validators.maxLength(32),
@@ -58,18 +72,9 @@ export class SignInComponent implements OnInit {
     ]),
   });
 
-  onSignin() {
-    this.validateUserNameFromApiDebounce()(
-      this.formSignin.get("username")!
-    ).subscribe((validationResult) => {
-      if (validationResult) {
-        this.formSignin.get("username")!.setErrors(validationResult);
-      } else {
-        this.Router.navigateByUrl("");
-      }
-    });
+  onSignUp() {
+    this.Router.navigateByUrl("sign-up");
   }
-
   hidePassword: boolean = true;
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
