@@ -3,13 +3,14 @@
     class="register-form"
     [formGroup]="registerForm"
     autocomplete="off"
-    (ngSubmit)="formSubmit$.next(true)"
+    (ngSubmit)="onSignUp()"
   >
     <h2 style="font-size: 30px">Đăng kí</h2>
     <div class="row-control">
       <mat-form-field appearance="outline">
         <mat-label>Tên đăng nhập</mat-label>
         <input
+          [(ngModel)]="user.userName"
           matInput
           placeholder="Tên đăng nhập"
           formControlName="username"
@@ -75,7 +76,12 @@
     <div class="row-control">
       <mat-form-field appearance="outline">
         <mat-label>Số điện thoại</mat-label>
-        <input matInput placeholder="Số điện thoại" formControlName="phone" />
+        <input
+          matInput
+          placeholder="Số điện thoại"
+          formControlName="phone"
+          [(ngModel)]="user.phone"
+        />
       </mat-form-field>
       <div *ngIf="registerForm.get('phone')?.touched">
         <div
@@ -121,6 +127,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Mật khẩu</mat-label>
         <input
+          [(ngModel)]="user.password"
           type="{{ hidePassword ? 'password' : 'text' }}"
           matInput
           placeholder="Mật khẩu"

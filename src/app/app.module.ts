@@ -80,6 +80,7 @@ registerLocaleData(en);
     MatButtonModule,
 
     MatIconModule,
+    HttpClientModule,
   ],
   providers: [
     provideClientHydration(),
