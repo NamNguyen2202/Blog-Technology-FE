@@ -1,10 +1,5 @@
 <div class="container">
-  <form
-    class="register-form"
-    [formGroup]="registerForm"
-    autocomplete="off"
-    (ngSubmit)="onSignUp()"
-  >
+  <form class="register-form" [formGroup]="registerForm" autocomplete="off">
     <h2 style="font-size: 30px">Đăng kí</h2>
     <div class="row-control">
       <mat-form-field appearance="outline">
@@ -237,6 +232,7 @@
         color="primary"
         type="submit"
         [disabled]="registerForm.invalid"
+        (click)="onSignUp()"
       >
         Đăng kí
       </button>

@@ -14,7 +14,7 @@ export class ApiService {
       'Content-Type': 'application/json',
     });
     const url = API_ENDPOINTS.CHECK_SIGN_UP(userName);
-    return this.httpClient.post<boolean>(url, { userName }, { headers });
+    return this.httpClient.get<boolean>(url, { headers });
   }
 
   SignUp(user: User): Observable<boolean> {
