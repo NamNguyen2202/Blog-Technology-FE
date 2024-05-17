@@ -43,9 +43,9 @@ export class SignInComponent implements OnInit {
           console.log("Đăng nhập thành công");
           this.Router.navigateByUrl("/");
         } else {
-          console.log("Thông tin đăng nhập không đúng:", signInResult.message);
+          console.log("Thông tin đăng nhập không đúng:", signInResult);
           alert(
-            signInResult.message ||
+            signInResult ||
               "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại."
           );
         }
@@ -53,9 +53,6 @@ export class SignInComponent implements OnInit {
       error: (error) => {
         console.error("Có lỗi xảy ra:", error);
         alert("Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại sau.");
-      },
-      complete: () => {
-        console.log("Đăng nhập hoàn tất");
       },
     });
   }
