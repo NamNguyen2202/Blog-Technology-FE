@@ -1,7 +1,10 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, delay, of } from "rxjs";
-import { SignInUser } from "../../common/interfaces/user.interface";
+import {
+  SignInResponse,
+  SignInUser,
+} from "../../common/interfaces/user.interface";
 import { API_ENDPOINTS } from "../../app.backend";
 
 @Injectable({
@@ -17,11 +20,11 @@ export class SignInService {
     return this.httpClient.post<boolean>(url, { userName }, { headers });
   }
 
-  SignIn(user: SignInUser): Observable<boolean> {
+  SignIn(user: SignInUser): Observable<SignInResponse> {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
-    return this.httpClient.post<boolean>(API_ENDPOINTS.SIGN_IN, user, {
+    return this.httpClient.post<SignInResponse>(API_ENDPOINTS.SIGN_IN, user, {
       headers,
     });
   }

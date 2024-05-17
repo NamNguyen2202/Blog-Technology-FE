@@ -11,7 +11,8 @@ import { SignInService } from "./sign-in.service";
 import { Observable, Subject, map } from "rxjs";
 import { PASSWORD_PATTERN, USERNAME_PATTERN } from "./sign-in.data";
 import { Router } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { SignInResponse } from "../../common/interfaces/user.interface";
 
 @Component({
   selector: "app-sign-in",
@@ -19,6 +20,7 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ["./sign-in.component.css"],
 })
 export class SignInComponent implements OnInit {
+  router: any;
   constructor(
     private fb: FormBuilder,
     private api: SignInService,
@@ -35,15 +37,17 @@ export class SignInComponent implements OnInit {
       password: this.formSignin.get("password")!.value || "",
     };
 
-    // Kiểm tra thông tin đăng nhập với cơ sở dữ liệu
     this.api.SignIn(credentials).subscribe({
-      next: (signInResult: boolean) => {
-        if (signInResult) {
+      next: (signInResult: SignInResponse) => {
+        if (signInResult.success) {
           console.log("Đăng nhập thành công");
           this.Router.navigateByUrl("/");
         } else {
-          console.log("Thông tin đăng nhập không đúng");
-          alert("Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.");
+          console.log("Thông tin đăng nhập không đúng:", signInResult.message);
+          alert(
+            signInResult.message ||
+              "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại."
+          );
         }
       },
       error: (error) => {
@@ -55,7 +59,6 @@ export class SignInComponent implements OnInit {
       },
     });
   }
-
   formSignin = new FormGroup({
     userName: new FormControl("", [
       Validators.required,

@@ -9,3 +9,11 @@ export interface User {
     userName: string;
     password: string;
   }
+
+  export interface SignInResponse {
+    success: boolean;
+    message?: string;
+    userName?: string; 
+    password?: string;// hoặc bất kỳ thông tin nào khác bạn muốn trả về
+  }
+  
