@@ -27,7 +27,7 @@ import {
   USERNAME_PATTERN,
 } from './sign-up.data';
 import { Router } from '@angular/router';
-import { User } from '../../common/interfaces/user.interface';
+import { SignUpResponse, User } from '../../common/interfaces/user.interface';
 @Component({
   selector: 'app-register',
   templateUrl: './sign-up.component.html',
@@ -40,29 +40,6 @@ export class SignupComponent implements OnInit {
     private Router: Router
   ) {}
   ngOnInit(): void {}
-  onSignUp() {
-    const user: User = {
-      userName: this.registerForm.get('username')!.value || '',
-      phone: this.registerForm.get('phone')!.value || '',
-      password: this.registerForm.get('password')!.value || '',
-    };
-    this.api.SignUp(user).subscribe({
-      next: (signUpResult: boolean) => {
-        if (signUpResult) {
-          console.log('Đăng ký thành công');
-          this.Router.navigateByUrl('test');
-        } else {
-          console.log('Không đăng ký được');
-        }
-      },
-      error: (error) => {
-        console.error('Có lỗi xảy ra:', error);
-      },
-      complete: () => {
-        console.log('Đăng ký hoàn tất');
-      },
-    });
-  }
 
   onSignIn() {
     this.Router.navigateByUrl('sign-in');
@@ -140,6 +117,34 @@ export class SignupComponent implements OnInit {
       validators: [this.passwordMatchValidator],
     }
   );
+  onSignUp() {
+    if (this.registerForm.valid) {
+      const user: User = {
+        userName: this.registerForm.get('username')!.value || '',
+        phone: this.registerForm.get('phone')!.value || '',
+        password: this.registerForm.get('password')!.value || '',
+      };
+
+      this.api.SignUp(user).subscribe({
+        next: (signUpResult: SignUpResponse) => {
+          if (signUpResult.success) {
+            console.log('Đăng ký thành công', signUpResult.message);
+            this.Router.navigateByUrl('/'); // Chuyển hướng đến trang chính sau khi đăng ký thành công
+          } else {
+            console.log('Không đăng ký được', signUpResult.message);
+          }
+        },
+        error: (error) => {
+          console.error('Có lỗi xảy ra:', error);
+        },
+        complete: () => {
+          console.log('Đăng ký hoàn tất');
+        },
+      });
+    } else {
+      console.log('Vui lòng nhập đầy đủ thông tin.');
+    }
+  }
 
   submitForm() {
     console.log(this.registerForm.value);

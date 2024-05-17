@@ -4,3 +4,8 @@ export interface User {
   phone: string;
   password: string;
 }
+
+export interface SignUpResponse {
+  success: boolean;
+  message?: string;
+}
