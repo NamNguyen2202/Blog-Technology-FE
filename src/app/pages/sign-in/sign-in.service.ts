@@ -1,23 +1,28 @@
-import { Injectable } from '@angular/core';
-import { Observable, delay, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, delay, of } from "rxjs";
+import { API_ENDPOINTS } from "../../app.backend";
+import { SignInUser, SignInResponse } from "./interface/sign-in.interface";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
-export class ApiService {
-  constructor() {}
-  validateUsername(username: string): Observable<boolean> {
-    console.log('Trigger API call');
-    let existedUsers = [ 'trungvo', 'tieppt', 'chautran','namnam'];
-    let isValid = existedUsers.every((x) => x !== username);
-    return of(isValid).pipe(delay(1000));
+export class SignInService {
+  constructor(private httpClient: HttpClient) {}
+  SignInCheck(userName: string): Observable<boolean> {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    const url = API_ENDPOINTS.CHECK_SIGN_IN(userName);
+    return this.httpClient.post<boolean>(url, { userName }, { headers });
   }
 
-  
-  validatePassword(password: string): Observable<boolean> {
-    console.log('Trigger API call');
-    let existedPasswords = ['12345@', 'nam123@', 'namnam1@'];
-    let isValid = existedPasswords.every((x) => x !== password);
-    return of(isValid).pipe(delay(1000));
+  SignIn(user: SignInUser): Observable<SignInResponse> {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.httpClient.post<SignInResponse>(API_ENDPOINTS.SIGN_IN, user, {
+      headers,
+    });
   }
-}//1
+}
