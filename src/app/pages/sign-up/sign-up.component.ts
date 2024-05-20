@@ -27,6 +27,7 @@ import {
   USERNAME_PATTERN,
 } from './sign-up.data';
 import { Router } from '@angular/router';
+import { SignUpResponse, User } from '../../common/interfaces/user.interface';
 @Component({
   selector: 'app-register',
   templateUrl: './sign-up.component.html',
@@ -38,24 +39,7 @@ export class SignupComponent implements OnInit {
     private api: ApiService,
     private Router: Router
   ) {}
-  ngOnInit(): void {
-    this.formSubmit$
-      .pipe(
-        tap(() => this.registerForm.markAsDirty()),
-        switchMap(() =>
-          this.registerForm.statusChanges.pipe(
-            startWith(this.registerForm.status),
-            filter((status) => status !== 'PENDING'),
-            take(1)
-          )
-        ),
-        filter((status) => status === 'VALID'),
-        tap(() => {
-          this.submitForm();
-        })
-      )
-      .subscribe();
-  }
+  ngOnInit(): void {}
 
   onSignIn() {
     this.Router.navigateByUrl('sign-in');
@@ -72,16 +56,17 @@ export class SignupComponent implements OnInit {
 
   validateUserNameFromApiDebounce() {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.api.validateUsername(control.value).pipe(
-        map((isValid) => {
-          if (isValid) {
-            return null;
-          }
-          return {
-            usernameDuplicated: true,
-          };
-        })
-      );
+      return this.api
+        .SignUpCheck(this.registerForm.get('username')!.value || '')
+        .pipe(
+          map((isDuplicated: boolean) => {
+            if (isDuplicated) {
+              return { usernameDuplicated: true };
+            } else {
+              return null;
+            }
+          })
+        );
     };
   }
   passwordMatchValidator: ValidatorFn = (
@@ -132,16 +117,39 @@ export class SignupComponent implements OnInit {
       validators: [this.passwordMatchValidator],
     }
   );
+  onSignUp() {
+    if (this.registerForm.valid) {
+      const user: User = {
+        userName: this.registerForm.get('username')!.value || '',
+        phone: this.registerForm.get('phone')!.value || '',
+        password: this.registerForm.get('password')!.value || '',
+      };
 
-  validateUserNameFormApi() {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.api.validateUsername(control.value).pipe(
-        map((isValid: Boolean) => {
-          return isValid ? null : { isvalidUserName: true };
-        })
-      );
-    };
+      this.api.SignUp(user).subscribe({
+        next: (signUpResult: SignUpResponse) => {
+          if (signUpResult.success) {
+            console.log('Đăng ký thành công', signUpResult.userName);
+            this.Router.navigateByUrl('');
+          } else {
+            alert(signUpResult.message || 'Vui lòng thử lại.');
+            console.log('Không đăng ký được', signUpResult.message);
+          }
+        },
+        error: (error) => {
+          alert(
+            'Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại sau.'
+          );
+          console.error('Có lỗi xảy ra:', error);
+        },
+        complete: () => {
+          console.log('Đăng ký hoàn tất');
+        },
+      });
+    } else {
+      console.log('Vui lòng nhập đầy đủ thông tin.');
+    }
   }
+
   submitForm() {
     console.log(this.registerForm.value);
   }

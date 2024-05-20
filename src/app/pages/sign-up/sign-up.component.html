@@ -1,10 +1,5 @@
 <div class="container">
-  <form
-    class="register-form"
-    [formGroup]="registerForm"
-    autocomplete="off"
-    (ngSubmit)="formSubmit$.next(true)"
-  >
+  <form class="register-form" [formGroup]="registerForm" autocomplete="off">
     <h2 style="font-size: 30px">Đăng kí</h2>
     <div class="row-control">
       <mat-form-field appearance="outline">
@@ -57,17 +52,6 @@
           *ngIf="registerForm.get('username')!.hasError('usernameDuplicated')"
         >
           Tên đăng nhập đã tồn tại!!Vui lòng thử lại tên đăng nhập khác!!
-        </div>
-        <div
-          class="info"
-          *ngIf="
-            !registerForm.get('username')?.hasError('usernameDuplicated') &&
-            !registerForm.get('username')?.hasError('pattern') &&
-            !registerForm.get('username')?.hasError('required') &&
-            !registerForm.get('username')?.hasError('minlength')
-          "
-        >
-          Tên đăng nhập đã tồn tại!!
         </div>
       </div>
     </div>
@@ -232,11 +216,7 @@
         </div>
         <div
           class="info"
-          *ngIf="
-            registerForm
-              .get('confirmPassword')!
-              .hasError('passwordMatchValidator')
-          "
+          *ngIf="registerForm.hasError('passwordMatchValidator')"
         >
           Mật khẩu không khớp!!
         </div>
@@ -252,6 +232,7 @@
         color="primary"
         type="submit"
         [disabled]="registerForm.invalid"
+        (click)="onSignUp()"
       >
         Đăng kí
       </button>

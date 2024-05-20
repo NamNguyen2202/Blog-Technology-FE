@@ -1,4 +1,4 @@
-/* Cài đặt chung */
+
 body {
   font-family: sans-serif;
   margin: 0;
@@ -6,24 +6,24 @@ body {
 }
 
 .container {
+
   max-width: 1000px;
-  margin: 0 auto;
+  margin-left: 40px;
   padding: 20px;
 }
 
-/* Header */
+
 header {
   background-color: #f0f0f0;
   padding: 10px 0;
-  display: flex; /* Sử dụng flexbox để bố cục header */
-  justify-content: space-between; /* Phân phối khoảng trống đều giữa các phần tử */
-  align-items: center; /* Canh giữa các phần tử theo chiều dọc */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 h1 {
-  margin: 0;
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
   font-size: 40px;
 }
 
@@ -32,60 +32,10 @@ h1 a {
   text-decoration: none;
 }
 
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-nav li {
-  display: inline-block;
-  margin: 0 15px;
-}
-
-nav a {
-  color: #333;
-  text-decoration: none;
-}
-
-nav a:hover {
-  color: #007bff;
-}
-
-/* Footer */
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px 0;
-}
-
-.user-actions {
-  display: flex;
-  align-items: center;
-}
-
-.btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  color: #fff;
-  margin-left: 10px; /* Khoảng cách giữa hai nút */
-}
-
 .auth-buttons {
-  float: right; /* Đặt các nút ở góc phải */
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
 }
 
 .auth-buttons button {
@@ -95,8 +45,5 @@ footer {
   cursor: pointer;
 }
 
-.sign-in{
-  margin-right: 40px;
-}
 
 
