@@ -78,7 +78,6 @@ registerLocaleData(en);
     MatFormFieldModule,
     MatCheckboxModule,
     MatButtonModule,
-
     MatIconModule,
     HttpClientModule,
   ],
