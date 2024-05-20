@@ -128,7 +128,7 @@ export class SignupComponent implements OnInit {
       this.api.SignUp(user).subscribe({
         next: (signUpResult: SignUpResponse) => {
           if (signUpResult.success) {
-            console.log('Đăng ký thành công', signUpResult.message);
+            console.log('Đăng ký thành công', signUpResult.userName);
             this.Router.navigateByUrl('');
           } else {
             alert(signUpResult.message || 'Vui lòng thử lại.');
