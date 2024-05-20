@@ -12,7 +12,7 @@ import { Observable, Subject, map } from "rxjs";
 import { PASSWORD_PATTERN, USERNAME_PATTERN } from "./sign-in.data";
 import { Router } from "@angular/router";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { SignInResponse } from "../../common/interfaces/user.interface";
+import { SignInResponse } from "./interface/sign-in.interface";
 
 @Component({
   selector: "app-sign-in",

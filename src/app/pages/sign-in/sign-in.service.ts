@@ -1,11 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, delay, of } from "rxjs";
-import {
-  SignInResponse,
-  SignInUser,
-} from "../../common/interfaces/user.interface";
 import { API_ENDPOINTS } from "../../app.backend";
+import { SignInUser, SignInResponse } from "./interface/sign-in.interface";
 
 @Injectable({
   providedIn: "root",
