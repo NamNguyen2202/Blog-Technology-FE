@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, delay, of } from 'rxjs';
-import { User } from '../../common/interfaces/user.interface';
+import { SignUpResponse, User } from '../../common/interfaces/user.interface';
 import { API_ENDPOINTS } from '../../app.backend';
 
 @Injectable({
@@ -17,11 +17,12 @@ export class ApiService {
     return this.httpClient.get<boolean>(url, { headers });
   }
 
-  SignUp(user: User): Observable<boolean> {
+  SignUp(user: User): Observable<SignUpResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this.httpClient.post<boolean>(API_ENDPOINTS.SIGN_UP, user, {
+    const url = API_ENDPOINTS.SIGN_UP;
+    return this.httpClient.post<SignUpResponse>(url, user, {
       headers,
     });
   }

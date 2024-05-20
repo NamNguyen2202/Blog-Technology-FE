@@ -129,12 +129,16 @@ export class SignupComponent implements OnInit {
         next: (signUpResult: SignUpResponse) => {
           if (signUpResult.success) {
             console.log('Đăng ký thành công', signUpResult.message);
-            this.Router.navigateByUrl('/'); // Chuyển hướng đến trang chính sau khi đăng ký thành công
+            this.Router.navigateByUrl('');
           } else {
+            alert(signUpResult.message || 'Vui lòng thử lại.');
             console.log('Không đăng ký được', signUpResult.message);
           }
         },
         error: (error) => {
+          alert(
+            'Có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại sau.'
+          );
           console.error('Có lỗi xảy ra:', error);
         },
         complete: () => {
