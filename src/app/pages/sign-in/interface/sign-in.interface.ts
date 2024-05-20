@@ -1,13 +1,10 @@
-export interface User {
-  userId?: number;
+export interface SignInUser {
   userName: string;
-  phone: string;
   password: string;
 }
 
-export interface SignUpResponse {
+export interface SignInResponse {
   success: boolean;
   userName?: string;
   message?: string;
 }
-
