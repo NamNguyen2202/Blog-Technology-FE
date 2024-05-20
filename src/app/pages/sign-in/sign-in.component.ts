@@ -36,7 +36,6 @@ export class SignInComponent implements OnInit {
       userName: this.formSignin.get("userName")!.value || "",
       password: this.formSignin.get("password")!.value || "",
     };
-
     this.api.SignIn(credentials).subscribe({
       next: (signInResult: SignInResponse) => {
         if (signInResult.success) {
@@ -45,7 +44,7 @@ export class SignInComponent implements OnInit {
         } else {
           console.log("Thông tin đăng nhập không đúng:", signInResult);
           alert(
-            signInResult ||
+            signInResult.message ||
               "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại."
           );
         }

@@ -11,6 +11,7 @@ export interface SignInUser {
 }
 
 export interface SignInResponse {
-  success : boolean;
+  success: boolean;
+  userName?: string;
   message?: string;
 }
