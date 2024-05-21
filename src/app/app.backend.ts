@@ -1,4 +1,3 @@
-
 export const BACKEND_HOST = 'http://localhost:3000/';
 
 export const API_ENDPOINTS = {
@@ -10,4 +9,7 @@ export const API_ENDPOINTS = {
   CHECK_SIGN_IN: (userName: string) =>
     `${BACKEND_HOST}/user/sign-in/${userName}`,
 
+  CATEGORY_POST: `${BACKEND_HOST}category`,
+  POST: `${BACKEND_HOST}post`,
+  POST_ID: (categoryId: number) => `${BACKEND_HOST}post/${categoryId}`,
 };

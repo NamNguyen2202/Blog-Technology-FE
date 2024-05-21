@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { HomeService } from './home.service';
+import { ICategory, IPost } from './interfaces/home.interface';
 interface ItemData {
   href: string;
   title: string;
@@ -14,27 +16,51 @@ interface ItemData {
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  constructor(private Router: Router) {}
-  ngOnInit(): void {
-    this.loadData(1);
-  }
-  data: ItemData[] = [];
-
-  loadData(pi: number): void {
-    this.data = new Array(5).fill({}).map((_, index) => ({
-      href: 'http://ant.design',
-      title: `ant design part ${index} (page: ${pi})`,
-      avatar:
-        'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-      content:
-        'We supply a series of design principles, practical patterns and high quality design resources ' +
-        '(Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    }));
-  }
+  categories: ICategory[] = [];
+  post: IPost[] = [];
+  // allSelected: boolean = false;h
 
   isCollapsed = false;
+  constructor(private Router: Router, private homeService: HomeService) {}
+  ngOnInit(): void {
+    // this.loadData(1);
+    this.getCategories();
+  }
+  getCategories() {
+    this.homeService.GetCategory().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+        console.log('Danh sách danh mục:', categories);
+      },
+      error: (err) => {
+        console.error('Có lỗi xảy ra:', err);
+      },
+    });
+  }
+  // data: ItemData[] = [];
+
+  getPost(): void {
+    this.homeService.GetPost().subscribe({
+      next: (post) => {
+        this.post = post;
+        console.log('Danh sách bài viết:', post);
+      },
+      error: (err) => {
+        console.error('Có lỗi xảy ra:', err);
+      },
+    });
+  }
+
+  // toggleAllSelection() {
+  //   this.allSelected = !this.allSelected;
+  //   this.categories.forEach(
+  //     (category) => (category.selected = this.allSelected)
+  //   );
+  // }
+
+  // updateAllSelected() {
+  //   this.allSelected = this.categories.every((category) => category.selected);
+  // }
 
   onSignUp() {
     this.Router.navigateByUrl('sign-up');

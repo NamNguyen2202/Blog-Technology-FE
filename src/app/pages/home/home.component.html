@@ -22,69 +22,44 @@
         <nz-layout class="inner-layout">
           <nz-sider nzWidth="200px" nzTheme="light">
             <ul nz-menu nzMode="inline" class="sider-menu">
-              <ul>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> Chọn tất cả
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option1
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option2
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option3
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option4
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option5
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option6
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option7
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option8
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option9
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option10
-                  </label>
-                </li>
-              </ul>
+              <li nz-menu-item *ngFor="let category of categories">
+                <label nz-checkbox>
+                  <input type="checkbox" [value]="category.categoryId" />
+                  {{ category.categoryName }}
+                </label>
+              </li>
             </ul>
+            ~
+            <!-- <ul nz-menu nzMode="inline" class="sider-menu">
+              <li nz-menu-item>
+                <label nz-checkbox>
+                  <input
+                    type="checkbox"
+                    [checked]="allSelected"
+                    (change)="toggleAllSelection()"
+                  />
+                  Chọn tất cả
+                </label>
+              </li>
+              <li nz-menu-item *ngFor="let category of categories">
+                <label nz-checkbox>
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="category.selected"
+                    (change)="updateAllSelected(); getPost(category.categoryId)"
+                    [value]="category.categoryId"
+                  />
+                  {{ category.categoryName }}
+                </label>
+              </li>
+            </ul> -->
           </nz-sider>
-          <nz-content class="inner-content"
-            ><nz-list nzItemLayout="vertical">
-              @for (item of data; track item) {
+
+          <!-- Hiển thị danh sách bài viết -->
+          <nz-content class="inner-content">
+            <nz-list nzItemLayout="vertical">
               <nz-list-item
+                *ngFor="let post of post"
                 style="
                   border: 1px solid;
                   padding: 20px;
@@ -93,17 +68,14 @@
                 "
               >
                 <nz-list-item-meta>
-                  <nz-list-item-meta-avatar
-                    [nzSrc]="item.avatar"
-                  ></nz-list-item-meta-avatar>
                   <nz-list-item-meta-title>
-                    <a href="{{ item.href }}">{{ item.title }}</a>
+                    <a href="">{{ post.postName }}</a>
                   </nz-list-item-meta-title>
                   <nz-list-item-meta-description>
-                    {{ item.description }}
+                    {{ post.content }}
                   </nz-list-item-meta-description>
                 </nz-list-item-meta>
-                {{ item.content }}
+                {{ post.content }}
                 <ul nz-list-item-actions>
                   <nz-list-item-action>
                     <span
@@ -138,9 +110,8 @@
                   />
                 </nz-list-item-extra>
               </nz-list-item>
-              }
-            </nz-list></nz-content
-          >
+            </nz-list>
+          </nz-content>
         </nz-layout>
       </nz-content>
     </nz-layout>
