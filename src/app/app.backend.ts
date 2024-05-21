@@ -6,8 +6,8 @@ export const API_ENDPOINTS = {
   CHECK_SIGN_UP: (userName: string) =>
     `${BACKEND_HOST}user/sign-up/${userName}`,
 
-  SIGN_IN: `${BACKEND_HOST}/user/sign-in`,
+  SIGN_IN: `${BACKEND_HOST}user/sign-in`,
   CHECK_SIGN_IN: (userName: string) =>
-    `${BACKEND_HOST}/user/sign-in/${userName}`,
+    `${BACKEND_HOST}user/sign-in/${userName}`,
 
 };

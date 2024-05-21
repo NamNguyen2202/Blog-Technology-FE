@@ -7,11 +7,18 @@
   </head>
   <body>
     <header>
+      <nav>
+        <div *ngIf="isLoggedIn()">
+          <span>Chào, {{ getUserName() }}</span>
+          <button (click)="logout()">Đăng xuất</button>
+        </div>
+      </nav>
+      <router-outlet></router-outlet>
       <div class="container">
         <h1 class="header-blog"><a>Blog của tôi</a></h1>
       </div>
-      <div class="auth-buttons">
-        <button (click)="onSignUp()">Đăng nhập</button>
+      <div class="auth-buttons" *ngIf="!isLoggedIn()">
+        <button (click)="onSignIn()">Đăng nhập</button>
       </div>
     </header>
     <div class="add-article">

@@ -15,8 +15,25 @@ interface ItemData {
 })
 export class HomeComponent implements OnInit {
   constructor(private Router: Router) {}
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
+  }
+
+  getUserName(): string {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user.userName;
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
+    this.Router.navigateByUrl('/sign-in');
+  }
   ngOnInit(): void {
     this.loadData(1);
+    if (!this.isLoggedIn()) {
+      this.Router.navigateByUrl('/sign-in');
+    }
   }
   data: ItemData[] = [];
 
