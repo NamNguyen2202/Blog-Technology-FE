@@ -1,6 +1,7 @@
 export interface ICategory {
   categoryId: number;
   categoryName: string;
+  selected?: boolean;
 }
 
 export interface IPost {

@@ -11,5 +11,5 @@ export const API_ENDPOINTS = {
 
   CATEGORY_POST: `${BACKEND_HOST}category`,
   POST: `${BACKEND_HOST}post`,
-  POST_ID: (categoryId: number) => `${BACKEND_HOST}post/${categoryId}`,
+  POST_ID: (categoryId: number) => `${BACKEND_HOST}post/id/${categoryId}`,
 };

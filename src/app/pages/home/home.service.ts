@@ -24,4 +24,12 @@ export class HomeService {
     const url = API_ENDPOINTS.POST;
     return this.httpClient.get<IPost[]>(url, { headers });
   }
+
+  GetAllPostId(category: number): Observable<IPost[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const url = API_ENDPOINTS.POST_ID(category);
+    return this.httpClient.get<IPost[]>(url, { headers });
+  }
 }

@@ -22,22 +22,9 @@
         <nz-layout class="inner-layout">
           <nz-sider nzWidth="200px" nzTheme="light">
             <ul nz-menu nzMode="inline" class="sider-menu">
-              <li nz-menu-item *ngFor="let category of categories">
-                <label nz-checkbox>
-                  <input type="checkbox" [value]="category.categoryId" />
-                  {{ category.categoryName }}
-                </label>
-              </li>
-            </ul>
-            ~
-            <!-- <ul nz-menu nzMode="inline" class="sider-menu">
               <li nz-menu-item>
                 <label nz-checkbox>
-                  <input
-                    type="checkbox"
-                    [checked]="allSelected"
-                    (change)="toggleAllSelection()"
-                  />
+                  <input type="checkbox" (change)="onSelectAllChange($event)" />
                   Chọn tất cả
                 </label>
               </li>
@@ -45,14 +32,12 @@
                 <label nz-checkbox>
                   <input
                     type="checkbox"
-                    [(ngModel)]="category.selected"
-                    (change)="updateAllSelected(); getPost(category.categoryId)"
-                    [value]="category.categoryId"
+                    (change)="onCheckboxChange(category)"
                   />
                   {{ category.categoryName }}
                 </label>
               </li>
-            </ul> -->
+            </ul>
           </nz-sider>
 
           <!-- Hiển thị danh sách bài viết -->
@@ -72,7 +57,7 @@
                     <a href="">{{ post.postName }}</a>
                   </nz-list-item-meta-title>
                   <nz-list-item-meta-description>
-                    {{ post.content }}
+                    {{ post.categoryId }}
                   </nz-list-item-meta-description>
                 </nz-list-item-meta>
                 {{ post.content }}
@@ -103,11 +88,7 @@
                   </nz-list-item-action>
                 </ul>
                 <nz-list-item-extra>
-                  <img
-                    width="272"
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  />
+                  <img width="272" alt="logo" [src]="post.photo" />
                 </nz-list-item-extra>
               </nz-list-item>
             </nz-list>
