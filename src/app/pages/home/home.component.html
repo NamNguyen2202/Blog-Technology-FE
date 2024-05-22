@@ -12,99 +12,36 @@
           <span>Chào, {{ getUserName() }}</span>
           <button (click)="logout()">Đăng xuất</button>
         </div>
+        <div *ngIf="!isLoggedIn()">
+          <button (click)="onSignIn()">Đăng nhập</button>
+          <button (click)="onSignUp()">Đăng ký</button>
+        </div>
       </nav>
-      <router-outlet></router-outlet>
-      <div class="container">
-        <h1 class="header-blog"><a>Blog của tôi</a></h1>
-      </div>
-      <div class="auth-buttons" *ngIf="!isLoggedIn()">
-        <button (click)="onSignIn()">Đăng nhập</button>
-      </div>
     </header>
-    <div class="add-article">
-      <button nz-button>Thêm bài viết</button>
+    <div class="container">
+      <h1 class="header-blog"><a>Blog của tôi</a></h1>
     </div>
     <nz-layout>
       <nz-content class="outer-content" style="color: #99c3d8">
         <nz-layout class="inner-layout">
           <nz-sider nzWidth="200px" nzTheme="light">
             <ul nz-menu nzMode="inline" class="sider-menu">
-              <ul>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> Chọn tất cả
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option1
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option2
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option3
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option4
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option5
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option6
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option7
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option8
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option9
-                  </label>
-                </li>
-                <li nz-menu-item>
-                  <label nz-radio nzValue="">
-                    <input type="checkbox" name="options" /> option10
-                  </label>
-                </li>
-              </ul>
+              <li nz-menu-item *ngFor="let item of data">
+                <label nz-radio nzValue="">
+                  <input type="checkbox" name="options" /> {{ item.title }}
+                </label>
+              </li>
             </ul>
           </nz-sider>
-          <nz-content class="inner-content"
-            ><nz-list nzItemLayout="vertical">
-              @for (item of data; track item) {
-              <nz-list-item
-                style="
-                  border: 1px solid;
-                  padding: 20px;
-                  margin: 20px;
-                  border-radius: 10px;
-                "
-              >
+          <nz-content class="inner-content">
+            <nz-list nzItemLayout="vertical">
+              <nz-list-item *ngFor="let item of data">
                 <nz-list-item-meta>
                   <nz-list-item-meta-avatar
                     [nzSrc]="item.avatar"
                   ></nz-list-item-meta-avatar>
                   <nz-list-item-meta-title>
-                    <a href="{{ item.href }}">{{ item.title }}</a>
+                    <a [href]="item.href">{{ item.title }}</a>
                   </nz-list-item-meta-title>
                   <nz-list-item-meta-description>
                     {{ item.description }}
@@ -112,30 +49,30 @@
                 </nz-list-item-meta>
                 {{ item.content }}
                 <ul nz-list-item-actions>
-                  <nz-list-item-action>
+                  <li>
                     <span
                       nz-icon
                       nzType="star-o"
                       style="margin-right: 8px"
-                    ></span>
-                    156
-                  </nz-list-item-action>
-                  <nz-list-item-action>
+                    ></span
+                    >156
+                  </li>
+                  <li>
                     <span
                       nz-icon
-                      nzType="star-o"
+                      nzType="like-o"
                       style="margin-right: 8px"
-                    ></span>
-                    156
-                  </nz-list-item-action>
-                  <nz-list-item-action>
+                    ></span
+                    >156
+                  </li>
+                  <li>
                     <span
                       nz-icon
-                      nzType="star-o"
+                      nzType="message"
                       style="margin-right: 8px"
-                    ></span>
-                    2
-                  </nz-list-item-action>
+                    ></span
+                    >2
+                  </li>
                 </ul>
                 <nz-list-item-extra>
                   <img
@@ -145,9 +82,8 @@
                   />
                 </nz-list-item-extra>
               </nz-list-item>
-              }
-            </nz-list></nz-content
-          >
+            </nz-list>
+          </nz-content>
         </nz-layout>
       </nz-content>
     </nz-layout>

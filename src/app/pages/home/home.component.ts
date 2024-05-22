@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 interface ItemData {
   href: string;
   title: string;
@@ -11,30 +12,31 @@ interface ItemData {
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private Router: Router) {}
+  constructor(private router: Router) {}
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('user');
+    return !!localStorage.getItem('userName');
   }
 
   getUserName(): string {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user.userName;
+    return localStorage.getItem('userName') || '';
   }
 
   logout(): void {
-    localStorage.removeItem('user');
-    this.Router.navigateByUrl('/sign-in');
+    localStorage.removeItem('userName');
+    this.router.navigateByUrl('/sign-in');
   }
+
   ngOnInit(): void {
-    this.loadData(1);
     if (!this.isLoggedIn()) {
-      this.Router.navigateByUrl('/sign-in');
+      this.router.navigateByUrl('/sign-in');
     }
+    this.loadData(1);
   }
+
   data: ItemData[] = [];
 
   loadData(pi: number): void {
@@ -54,10 +56,10 @@ export class HomeComponent implements OnInit {
   isCollapsed = false;
 
   onSignUp() {
-    this.Router.navigateByUrl('sign-up');
+    this.router.navigateByUrl('sign-up');
   }
 
   onSignIn() {
-    this.Router.navigateByUrl('sign-in');
+    this.router.navigateByUrl('sign-in');
   }
 }

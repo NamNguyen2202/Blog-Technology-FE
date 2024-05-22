@@ -24,7 +24,7 @@ export class SignInComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem("user")) {
+    if (localStorage.getItem("userName")) {
       this.router.navigateByUrl("/");
     }
   }
@@ -40,7 +40,7 @@ export class SignInComponent implements OnInit {
       next: (signInResult: SignInResponse) => {
         if (signInResult.success) {
           console.log("Đăng nhập thành công");
-          localStorage.setItem("user", JSON.stringify(signInResult.userName)); // Save session in localStorage
+          localStorage.setItem("userName", credentials.userName);
           this.router.navigateByUrl("/");
         } else {
           console.log("Thông tin đăng nhập không đúng:", signInResult);
