@@ -17,19 +17,22 @@ export class HomeService {
     return this.httpClient.get<ICategory[]>(url, { headers });
   }
 
-  GetPost(): Observable<IPost[]> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    const url = API_ENDPOINTS.POST;
-    return this.httpClient.get<IPost[]>(url, { headers });
-  }
+  // GetPost(): Observable<IPost[]> {
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //   });
+  //   const url = API_ENDPOINTS.POST;
+  //   return this.httpClient.get<IPost[]>(url, { headers });
+  // }
 
-  GetAllPostId(category: number): Observable<IPost[]> {
+  GetAllPostId(categoryIds: number[]): Observable<IPost[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    const url = API_ENDPOINTS.POST_ID(category);
+    const url =
+      categoryIds.length > 0
+        ? API_ENDPOINTS.POST_ID(categoryIds)
+        : API_ENDPOINTS.POST_ID([]);
     return this.httpClient.get<IPost[]>(url, { headers });
   }
 }

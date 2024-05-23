@@ -24,7 +24,7 @@
             <ul nz-menu nzMode="inline" class="sider-menu">
               <li nz-menu-item>
                 <label nz-checkbox>
-                  <input type="checkbox" (change)="onSelectAllChange($event)" />
+                  <input type="checkbox" (click)="selectAllCategories()" />
                   Chọn tất cả
                 </label>
               </li>
@@ -32,7 +32,8 @@
                 <label nz-checkbox>
                   <input
                     type="checkbox"
-                    (change)="onCheckboxChange(category)"
+                    [checked]="category.selected"
+                    (click)="onCheckboxChange(category)"
                   />
                   {{ category.categoryName }}
                 </label>
@@ -57,7 +58,7 @@
                     <a href="">{{ post.postName }}</a>
                   </nz-list-item-meta-title>
                   <nz-list-item-meta-description>
-                    {{ post.categoryId }}
+                    {{ post.categoryName }}
                   </nz-list-item-meta-description>
                 </nz-list-item-meta>
                 {{ post.content }}

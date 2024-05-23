@@ -11,4 +11,5 @@ export interface IPost {
   photo: string;
   userId?: number;
   categoryId?: number;
+  categoryName?: string;
 }
