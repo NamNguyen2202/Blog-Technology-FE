@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { AddArticleDialogComponent } from '../../components/add-articles/add-articles.component';
 
 interface ItemData {
   href: string;
@@ -15,7 +18,26 @@ interface ItemData {
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private router: Router) {}
+  posts: ItemData[] = [];
+  userId!: number; // UserId của người đăng nhập
+  postForm: any = {
+    postName: '',
+    content: '',
+    photo: '',
+    categoryId: '',
+  };
+
+  constructor(private router: Router, public dialog: MatDialog, private http: HttpClient) {}
+
+  ngOnInit(): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigateByUrl('/sign-in');
+    } else {
+      const userIdString = localStorage.getItem('userId');
+      this.userId = userIdString ? +userIdString : 0; 
+      this.fetchPosts(); 
+    }
+  }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('userName');
@@ -30,27 +52,35 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl('/sign-in');
   }
 
-  ngOnInit(): void {
-    if (!this.isLoggedIn()) {
-      this.router.navigateByUrl('/sign-in');
-    }
-    this.loadData(1);
+  fetchPosts(): void {
+    this.http.get<ItemData[]>('http://localhost:3000/post')
+      .subscribe(posts => {
+        this.posts = posts;
+      });
   }
 
-  data: ItemData[] = [];
+  openAddArticleDialog(): void {
+    const dialogRef = this.dialog.open(AddArticleDialogComponent, {
+      width: '400px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
-  loadData(pi: number): void {
-    this.data = new Array(5).fill({}).map((_, index) => ({
-      href: 'http://ant.design',
-      title: `ant design part ${index} (page: ${pi})`,
-      avatar:
-        'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-      content:
-        'We supply a series of design principles, practical patterns and high quality design resources ' +
-        '(Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    }));
+  addPost(): void {
+    // Gọi API hoặc service để thêm bài viết mới
+    this.http.post<any>('http://localhost:3000/post/insertpost', {
+      ...this.postForm,
+      userId: this.userId,
+    }).subscribe(response => {
+      console.log('New post added:', response);
+      // Sau khi thêm thành công, có thể làm một số điều gì đó, ví dụ như cập nhật danh sách bài viết
+      this.fetchPosts(); // Cập nhật danh sách bài viết sau khi thêm mới
+    }, error => {
+      console.error('Error adding new post:', error);
+    });
   }
 
   isCollapsed = false;

@@ -7,81 +7,97 @@
   </head>
   <body>
     <header>
-      <nav>
-        <div *ngIf="isLoggedIn()">
-          <span>Chào, {{ getUserName() }}</span>
-          <button (click)="logout()">Đăng xuất</button>
+      <nav class="nav-container">
+        <div class="container">
+          <h1 class="header-blog"><a>Blog-Technology</a></h1>
         </div>
-        <div *ngIf="!isLoggedIn()">
-          <button (click)="onSignIn()">Đăng nhập</button>
-          <button (click)="onSignUp()">Đăng ký</button>
+        <div class="auth-buttons">
+          <div *ngIf="isLoggedIn(); else loggedOut">
+            <span>Chào, {{ getUserName() }}</span>
+            <button (click)="logout()">Đăng xuất</button>
+          </div>
+          <ng-template #loggedOut>
+            <button (click)="onSignIn()">Đăng nhập</button>
+            <button (click)="onSignUp()">Đăng ký</button>
+          </ng-template>
         </div>
       </nav>
     </header>
-    <div class="container">
-      <h1 class="header-blog"><a>Blog của tôi</a></h1>
+
+    <div class="add-article">
+      <button (click)="openAddArticleDialog()">Thêm bài viết</button>
     </div>
     <nz-layout>
       <nz-content class="outer-content" style="color: #99c3d8">
         <nz-layout class="inner-layout">
           <nz-sider nzWidth="200px" nzTheme="light">
             <ul nz-menu nzMode="inline" class="sider-menu">
-              <li nz-menu-item *ngFor="let item of data">
-                <label nz-radio nzValue="">
-                  <input type="checkbox" name="options" /> {{ item.title }}
+              <li nz-menu-item>
+                <label nz-checkbox>
+                  <input type="checkbox" />
+                  Chọn tất cả
+                </label>
+              </li>
+              <li nz-menu-item>
+                <label nz-checkbox>
+                  <input type="checkbox" />
                 </label>
               </li>
             </ul>
           </nz-sider>
+    
+          <!-- Hiển thị danh sách bài viết -->
           <nz-content class="inner-content">
-            <nz-list nzItemLayout="vertical">
-              <nz-list-item *ngFor="let item of data">
-                <nz-list-item-meta>
-                  <nz-list-item-meta-avatar
-                    [nzSrc]="item.avatar"
-                  ></nz-list-item-meta-avatar>
-                  <nz-list-item-meta-title>
-                    <a [href]="item.href">{{ item.title }}</a>
-                  </nz-list-item-meta-title>
-                  <nz-list-item-meta-description>
-                    {{ item.description }}
-                  </nz-list-item-meta-description>
-                </nz-list-item-meta>
-                {{ item.content }}
-                <ul nz-list-item-actions>
-                  <li>
-                    <span
-                      nz-icon
-                      nzType="star-o"
-                      style="margin-right: 8px"
-                    ></span
-                    >156
-                  </li>
-                  <li>
-                    <span
-                      nz-icon
-                      nzType="like-o"
-                      style="margin-right: 8px"
-                    ></span
-                    >156
-                  </li>
-                  <li>
-                    <span
-                      nz-icon
-                      nzType="message"
-                      style="margin-right: 8px"
-                    ></span
-                    >2
-                  </li>
-                </ul>
-                <nz-list-item-extra>
-                  <img
-                    width="272"
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  />
-                </nz-list-item-extra>
-              </nz-list-item>
+            <nz-list nzItemLayout="vertical" [nzDataSource]="posts" [nzRenderItem]="item">
+              <ng-template #item let-item>
+                <nz-list-item
+                  style="
+                    border: 1px solid;
+                    padding: 20px;
+                    margin: 20px;
+                    border-radius: 10px;
+                  "
+                >
+                  <nz-list-item-meta>
+                    <nz-list-item-meta-title>
+                      <a href="">{{ item.postName }}</a>
+                    </nz-list-item-meta-title>
+                    <nz-list-item-meta-description>
+                      {{ item.content }}
+                    </nz-list-item-meta-description>
+                  </nz-list-item-meta>
+    
+                  <ul nz-list-item-actions>
+                    <nz-list-item-action>
+                      <span
+                        nz-icon
+                        nzType="star-o"
+                        style="margin-right: 8px"
+                      ></span>
+                      156
+                    </nz-list-item-action>
+                    <nz-list-item-action>
+                      <span
+                        nz-icon
+                        nzType="star-o"
+                        style="margin-right: 8px"
+                      ></span>
+                      156
+                    </nz-list-item-action>
+                    <nz-list-item-action>
+                      <span
+                        nz-icon
+                        nzType="star-o"
+                        style="margin-right: 8px"
+                      ></span>
+                      2
+                    </nz-list-item-action>
+                  </ul>
+                  <nz-list-item-extra>
+                    <img [src]="item.photo" width="272" alt="logo" />
+                  </nz-list-item-extra>
+                </nz-list-item>
+              </ng-template>
             </nz-list>
           </nz-content>
         </nz-layout>
