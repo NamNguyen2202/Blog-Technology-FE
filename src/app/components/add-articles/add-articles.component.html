@@ -1,21 +1,44 @@
 <h1>Thêm bài viết</h1>
-<form>
+<form (ngSubmit)="submitArticle()">
   <label for="title">Tên bài viết:</label>
-  <input type="text" id="title" name="title" />
+  <input
+    type="text"
+    id="title"
+    name="title"
+    [(ngModel)]="post.postName"
+    (ngModelChange)="logData()"
+  />
 
   <label for="content">Nội dung:</label>
-  <textarea id="content" name="content" rows="4" cols="50"></textarea>
+  <textarea
+    id="content"
+    name="content"
+    rows="4"
+    cols="50"
+    [(ngModel)]="post.content"
+    (ngModelChange)="logData()"
+  ></textarea>
 
   <label for="photo">Hình ảnh:</label>
-  <input type="file" id="photo" name="photo" />
+  <input
+    type="file"
+    id="photo"
+    name="photo"
+    (change)="onFileChange($event)"
+    (ngModelChange)="logData()"
+  />
 
   <label for="userId">Người viết:</label>
-  <span>{{ getUserName() }}</span>
+  <span [(ngModel)]="post.userId" (ngModelChange)="logData()">{{
+    getUserName()
+  }}</span>
 
   <label for="categoryId">Loại bài viết:</label>
-  <select id="categoryId" name="categoryId">
-    <!-- <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option> -->
+  <select id="categoryId" name="categoryId" [(ngModel)]="post.categoryId">
+    <option *ngFor="let category of categories" [value]="category.categoryId">
+      {{ category.categoryName }}
+    </option>
   </select>
 
-  <button type="submit" (click)="submitArticle()">Đăng bài</button>
+  <button type="submit">Đăng bài</button>
 </form>

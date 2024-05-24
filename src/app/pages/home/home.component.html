@@ -32,19 +32,15 @@
         <nz-layout class="inner-layout">
           <nz-sider nzWidth="200px" nzTheme="light">
             <ul nz-menu nzMode="inline" class="sider-menu">
-              <li nz-menu-item>
+              <li nz-menu-item *ngFor="let category of categories">
                 <label nz-checkbox>
                   <input type="checkbox" />
-                  Chọn tất cả
-                </label>
-              </li>
-              <li nz-menu-item>
-                <label nz-checkbox>
-                  <input type="checkbox" />
+                  {{ category.categoryName }}
                 </label>
               </li>
             </ul>
           </nz-sider>
+    
     
           <!-- Hiển thị danh sách bài viết -->
           <nz-content class="inner-content">

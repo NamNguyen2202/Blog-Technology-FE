@@ -5,13 +5,18 @@ import { HttpClient } from '@angular/common/http';
 import { AddArticleDialogComponent } from '../../components/add-articles/add-articles.component';
 
 interface ItemData {
-  href: string;
-  title: string;
-  avatar: string;
-  description: string;
+  postId: number;
+  postName: string;
   content: string;
+  photo: string;
+  userId: number;
+  categoryId: number;
 }
 
+interface Category {
+  categoryId: number;
+  categoryName: string;
+}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,6 +24,7 @@ interface ItemData {
 })
 export class HomeComponent implements OnInit {
   posts: ItemData[] = [];
+  categories: Category[] = [];
   userId!: number; // UserId của người đăng nhập
   postForm: any = {
     postName: '',
@@ -36,6 +42,7 @@ export class HomeComponent implements OnInit {
       const userIdString = localStorage.getItem('userId');
       this.userId = userIdString ? +userIdString : 0; 
       this.fetchPosts(); 
+      this.fetchCategories();
     }
   }
 
@@ -59,6 +66,14 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  fetchCategories(): void {
+    this.http.get<Category[]>('http://localhost:3000/category')
+      .subscribe(categories => {
+        this.categories = categories;
+      }, error => {
+        console.error('Error fetching categories:', error);
+      });
+  }
   openAddArticleDialog(): void {
     const dialogRef = this.dialog.open(AddArticleDialogComponent, {
       width: '400px',
