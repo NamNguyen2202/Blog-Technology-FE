@@ -1,101 +1,78 @@
-<!DOCTYPE html>
-<html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog cá nhân</title>
-  </head>
-  <body>
-    <header>
-      <div class="container">
-        <h1 class="header-blog"><a>Blog của tôi</a></h1>
-      </div>
-      <div class="auth-buttons">
-        <button (click)="onSignUp()">Đăng nhập</button>
-      </div>
-    </header>
-    <div class="add-article">
-      <button nz-button>Thêm bài viết</button>
-    </div>
-    <nz-layout>
-      <nz-content class="outer-content" style="color: #99c3d8">
-        <nz-layout class="inner-layout">
-          <nz-sider nzWidth="200px" nzTheme="light">
-            <ul nz-menu nzMode="inline" class="sider-menu">
-              <li nz-menu-item>
-                <label nz-checkbox>
-                  <input type="checkbox" (click)="selectAllCategories()" />
-                  Chọn tất cả
-                </label>
-              </li>
-              <li nz-menu-item *ngFor="let category of categories">
-                <label nz-checkbox>
-                  <input
-                    type="checkbox"
-                    [checked]="category.selected"
-                    (click)="onCheckboxChange(category)"
-                  />
-                  {{ category.categoryName }}
-                </label>
-              </li>
-            </ul>
-          </nz-sider>
+<header>
+  <div class="container">
+    <h1 class="header-blog"><a>Blog của tôi</a></h1>
+  </div>
+  <div class="auth-buttons">
+    <button (click)="onSignUp()">Đăng nhập</button>
+  </div>
+</header>
+<div class="add-article">
+  <button nz-button>Thêm bài viết</button>
+</div>
+<nz-layout>
+  <nz-content class="outer-content" style="color: #99c3d8">
+    <nz-layout class="inner-layout">
+      <nz-sider nzWidth="200px" nzTheme="light">
+        <ul nz-menu nzMode="inline" class="sider-menu">
+          <li nz-menu-item>
+            <label nz-checkbox>
+              <input type="checkbox" (change)="selectAllCategories()" />
+              Chọn tất cả
+            </label>
+          </li>
+          <li nz-menu-item *ngFor="let category of categories">
+            <label nz-checkbox>
+              <input
+                type="checkbox"
+                (change)="onCheckboxChange($event, category.categoryId)"
+              />
+              {{ category.categoryName }}
+            </label>
+          </li>
+        </ul>
+      </nz-sider>
 
-          <!-- Hiển thị danh sách bài viết -->
-          <nz-content class="inner-content">
-            <nz-list nzItemLayout="vertical">
-              <nz-list-item
-                *ngFor="let post of post"
-                style="
-                  border: 1px solid;
-                  padding: 20px;
-                  margin: 20px;
-                  border-radius: 10px;
-                "
-              >
-                <nz-list-item-meta>
-                  <nz-list-item-meta-title>
-                    <a href="">{{ post.postName }}</a>
-                  </nz-list-item-meta-title>
-                  <nz-list-item-meta-description>
-                    {{ post.categoryName }}
-                  </nz-list-item-meta-description>
-                </nz-list-item-meta>
-                {{ post.content }}
-                <ul nz-list-item-actions>
-                  <nz-list-item-action>
-                    <span
-                      nz-icon
-                      nzType="star-o"
-                      style="margin-right: 8px"
-                    ></span>
-                    156
-                  </nz-list-item-action>
-                  <nz-list-item-action>
-                    <span
-                      nz-icon
-                      nzType="star-o"
-                      style="margin-right: 8px"
-                    ></span>
-                    156
-                  </nz-list-item-action>
-                  <nz-list-item-action>
-                    <span
-                      nz-icon
-                      nzType="star-o"
-                      style="margin-right: 8px"
-                    ></span>
-                    2
-                  </nz-list-item-action>
-                </ul>
-                <nz-list-item-extra>
-                  <img width="272" alt="logo" [src]="post.photo" />
-                </nz-list-item-extra>
-              </nz-list-item>
-            </nz-list>
-          </nz-content>
-        </nz-layout>
+      <!-- Hiển thị danh sách bài viết -->
+      <nz-content class="inner-content">
+        <nz-list nzItemLayout="vertical">
+          <nz-list-item
+            *ngFor="let post of posts"
+            style="
+              border: 1px solid;
+              padding: 20px;
+              margin: 20px;
+              border-radius: 10px;
+            "
+          >
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <a href="">{{ post.postName }}</a>
+              </nz-list-item-meta-title>
+              <nz-list-item-meta-description>
+                {{ post.categoryName }}
+              </nz-list-item-meta-description>
+            </nz-list-item-meta>
+            {{ post.content }}
+            <ul nz-list-item-actions>
+              <nz-list-item-action>
+                <span nz-icon nzType="star-o" style="margin-right: 8px"></span>
+                156
+              </nz-list-item-action>
+              <nz-list-item-action>
+                <span nz-icon nzType="star-o" style="margin-right: 8px"></span>
+                156
+              </nz-list-item-action>
+              <nz-list-item-action>
+                <span nz-icon nzType="star-o" style="margin-right: 8px"></span>
+                2
+              </nz-list-item-action>
+            </ul>
+            <nz-list-item-extra>
+              <img width="272" alt="logo" [src]="post.photo" />
+            </nz-list-item-extra>
+          </nz-list-item>
+        </nz-list>
       </nz-content>
     </nz-layout>
-  </body>
-</html>
+  </nz-content>
+</nz-layout>

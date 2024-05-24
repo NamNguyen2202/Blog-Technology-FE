@@ -11,10 +11,8 @@ export const API_ENDPOINTS = {
 
   CATEGORY_POST: `${BACKEND_HOST}category`,
   POST: `${BACKEND_HOST}post`,
+
   POST_ID: (category: number[]) => {
-    const queryParams = category.length
-      ? `?categoryIds=${category.join(',')}`
-      : '';
-    return `${BACKEND_HOST}post/id/${queryParams}`;
+    return `${BACKEND_HOST}post/id/${category}`;
   },
 };

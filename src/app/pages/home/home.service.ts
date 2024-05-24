@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../../app.backend';
@@ -17,13 +17,13 @@ export class HomeService {
     return this.httpClient.get<ICategory[]>(url, { headers });
   }
 
-  // GetPost(): Observable<IPost[]> {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //   });
-  //   const url = API_ENDPOINTS.POST;
-  //   return this.httpClient.get<IPost[]>(url, { headers });
-  // }
+  GetAllPost(): Observable<IPost[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const url = API_ENDPOINTS.POST;
+    return this.httpClient.get<IPost[]>(url, { headers });
+  }
 
   GetAllPostId(categoryIds: number[]): Observable<IPost[]> {
     const headers = new HttpHeaders({

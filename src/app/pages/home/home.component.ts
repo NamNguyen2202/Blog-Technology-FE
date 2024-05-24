@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { ICategory, IPost } from './interfaces/home.interface';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,15 +10,15 @@ import { forkJoin } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   categories: ICategory[] = [];
-  post: IPost[] = [];
-  selectedCheckboxIds: number[] = [];
+  posts: IPost[] = [];
+  selectedCategoryIds: number[] = [];
 
   constructor(private router: Router, private homeService: HomeService) {}
 
   ngOnInit(): void {
     this.getCategories();
-    // this.getPost();
   }
+
   getCategories(): void {
     this.homeService.GetCategory().subscribe({
       next: (categories) => {
@@ -34,30 +33,44 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // onCheckboxChangeAll(event: any) {
+  //   if (event.target.checked) {
+  //     this.getAllPost();
+  //   }
+  // }
+
+  // getAllPost() {
+  //   this.homeService.GetAllPost().subscribe({
+  //     next: (post) => {
+  //       this.posts = post;
+  //       console.log('Danh sách bài viết:', post);
+  //     },
+  //     error: (err) => {
+  //       console.error('Có lỗi xảy ra:', err);
+  //     },
+  //   });
+  // }
   selectAllCategories(): void {
-    this.selectedCheckboxIds = [];
+    this.selectedCategoryIds = [];
     this.getPost();
   }
 
-  onCheckboxChange(category: any) {
-    if (category.selected) {
-      this.selectedCheckboxIds.push(category.id);
+  onCheckboxChange(event: any, categoryId: number) {
+    if (event.target.checked) {
+      this.selectedCategoryIds.push(categoryId);
     } else {
-      const index = this.selectedCheckboxIds.indexOf(category.id);
-      if (index !== -1) {
-        this.selectedCheckboxIds.splice(index, 1);
-      }
+      this.selectedCategoryIds = this.selectedCategoryIds.filter(
+        (id) => id !== categoryId
+      );
     }
-    console.log('Selected Checkbox IDs:', this.selectedCheckboxIds);
+    console.log('Selected Category IDs:', this.selectedCategoryIds);
     this.getPost();
   }
 
   getPost(): void {
-    this.homeService.GetAllPostId(this.selectedCheckboxIds).subscribe({
+    this.homeService.GetAllPostId(this.selectedCategoryIds).subscribe({
       next: (post) => {
-        this.post = post.map((post) => ({
-          ...post,
-        }));
+        this.posts = post;
         console.log('Danh sách bài viết:', post);
       },
       error: (err) => {
