@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
         this.categories = categories.map((category) => ({
           ...category,
         }));
-        console.log('Danh sách danh mục:', categories);
       },
       error: (err) => {
         console.error('Có lỗi xảy ra:', err);
@@ -46,7 +45,7 @@ export class HomeComponent implements OnInit {
         (id) => id !== categoryId
       );
     }
-    console.log('Selected Category IDs:', this.selectedCategoryIds);
+
     this.getPost();
   }
 
@@ -54,7 +53,6 @@ export class HomeComponent implements OnInit {
     this.homeService.GetAllPostId(this.selectedCategoryIds).subscribe({
       next: (post) => {
         this.posts = post;
-        console.log('Danh sách bài viết:', post);
       },
       error: (err) => {
         console.error('Có lỗi xảy ra:', err);

@@ -34,8 +34,6 @@ export class HomeService {
       categoryIds.length === 0
         ? API_ENDPOINTS.POST_ID('')
         : API_ENDPOINTS.POST_ID(ids);
-    console.log(url);
-    console.log(categoryIds);
     return this.httpClient.get<IPost[]>(url, { headers });
   }
 }
