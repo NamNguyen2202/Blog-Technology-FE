@@ -29,10 +29,13 @@ export class HomeService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+    const ids = categoryIds.join(',');
     const url =
-      categoryIds.length > 0
-        ? API_ENDPOINTS.POST_ID(categoryIds)
-        : API_ENDPOINTS.POST_ID([]);
+      categoryIds.length === 0
+        ? API_ENDPOINTS.POST_ID('')
+        : API_ENDPOINTS.POST_ID(ids);
+    console.log(url);
+    console.log(categoryIds);
     return this.httpClient.get<IPost[]>(url, { headers });
   }
 }

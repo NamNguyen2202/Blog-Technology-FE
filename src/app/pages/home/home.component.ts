@@ -33,23 +33,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // onCheckboxChangeAll(event: any) {
-  //   if (event.target.checked) {
-  //     this.getAllPost();
-  //   }
-  // }
-
-  // getAllPost() {
-  //   this.homeService.GetAllPost().subscribe({
-  //     next: (post) => {
-  //       this.posts = post;
-  //       console.log('Danh sách bài viết:', post);
-  //     },
-  //     error: (err) => {
-  //       console.error('Có lỗi xảy ra:', err);
-  //     },
-  //   });
-  // }
   selectAllCategories(): void {
     this.selectedCategoryIds = [];
     this.getPost();
