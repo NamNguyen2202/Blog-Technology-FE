@@ -1,12 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-interface ItemData {
-  href: string;
-  title: string;
-  avatar: string;
-  description: string;
-  content: string;
-}
+import { HomeService } from './home.service';
+import { ICategory, IPost } from './interfaces/home.interface';
 
 @Component({
   selector: 'app-home',
@@ -14,33 +9,64 @@ interface ItemData {
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  constructor(private Router: Router) {}
+  categories: ICategory[] = [];
+  posts: IPost[] = [];
+  selectedCategoryIds: number[] = [];
+
+  constructor(private router: Router, private homeService: HomeService) {}
+
   ngOnInit(): void {
-    this.loadData(1);
-  }
-  data: ItemData[] = [];
-
-  loadData(pi: number): void {
-    this.data = new Array(5).fill({}).map((_, index) => ({
-      href: 'http://ant.design',
-      title: `ant design part ${index} (page: ${pi})`,
-      avatar:
-        'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-      content:
-        'We supply a series of design principles, practical patterns and high quality design resources ' +
-        '(Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    }));
+    this.getCategories();
   }
 
-  isCollapsed = false;
+  getCategories(): void {
+    this.homeService.GetCategory().subscribe({
+      next: (categories) => {
+        this.categories = categories.map((category) => ({
+          ...category,
+        }));
+        console.log('Danh sách danh mục:', categories);
+      },
+      error: (err) => {
+        console.error('Có lỗi xảy ra:', err);
+      },
+    });
+  }
+
+  selectAllCategories(): void {
+    this.selectedCategoryIds = [];
+    this.getPost();
+  }
+
+  onCheckboxChange(event: any, categoryId: number) {
+    if (event.target.checked) {
+      this.selectedCategoryIds.push(categoryId);
+    } else {
+      this.selectedCategoryIds = this.selectedCategoryIds.filter(
+        (id) => id !== categoryId
+      );
+    }
+    console.log('Selected Category IDs:', this.selectedCategoryIds);
+    this.getPost();
+  }
+
+  getPost(): void {
+    this.homeService.GetAllPostId(this.selectedCategoryIds).subscribe({
+      next: (post) => {
+        this.posts = post;
+        console.log('Danh sách bài viết:', post);
+      },
+      error: (err) => {
+        console.error('Có lỗi xảy ra:', err);
+      },
+    });
+  }
 
   onSignUp() {
-    this.Router.navigateByUrl('sign-up');
+    this.router.navigateByUrl('sign-up');
   }
 
   onSignIn() {
-    this.Router.navigateByUrl('sign-in');
+    this.router.navigateByUrl('sign-in');
   }
 }
