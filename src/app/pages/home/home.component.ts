@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
-import { AddArticleDialogComponent } from '../../components/add-articles/add-articles.component';
+import { AddArticleDialogComponent } from '../../components/add-post/add-post.component';
 
 interface ItemData {
   postId: number;

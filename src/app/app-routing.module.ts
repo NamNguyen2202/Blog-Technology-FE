@@ -4,7 +4,7 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './auth.guard';
 import { SignupComponent } from './pages/sign-up/sign-up.component';
-import { AddArticleDialogComponent } from './components/add-articles/add-articles.component';
+import { AddArticleDialogComponent } from './components/add-post/add-post.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },

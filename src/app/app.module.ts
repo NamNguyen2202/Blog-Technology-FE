@@ -35,7 +35,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SignupComponent } from './pages/sign-up/sign-up.component';
 import { PerInfoComponent } from './components/per-info/per-info.component';
 import { MatIconModule } from '@angular/material/icon';
-import { AddArticleDialogComponent } from './components/add-articles/add-articles.component';
+import { AddArticleDialogComponent } from './components/add-post/add-post.component';
 
 registerLocaleData(en);
 
