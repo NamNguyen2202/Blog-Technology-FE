@@ -13,6 +13,6 @@ export const API_ENDPOINTS = {
   POST: `${BACKEND_HOST}post`,
 
   POST_ID: (category: string) => {
-    return `${BACKEND_HOST}post/ids/${category}`;
+    return `${BACKEND_HOST}post/ids?categoryIds=${category}`;
   },
 };
