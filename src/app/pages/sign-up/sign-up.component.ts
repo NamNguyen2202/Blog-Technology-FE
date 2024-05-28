@@ -129,7 +129,8 @@ export class SignupComponent implements OnInit {
         next: (signUpResult: SignUpResponse) => {
           if (signUpResult.success) {
             console.log('Đăng ký thành công', signUpResult.userName);
-            this.Router.navigateByUrl('');
+            alert('Đăng kí thành công');
+            this.Router.navigateByUrl('sign-in');
           } else {
             alert(signUpResult.message || 'Vui lòng thử lại.');
             console.log('Không đăng ký được', signUpResult.message);

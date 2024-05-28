@@ -3,46 +3,30 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { AddArticleDialogComponent } from '../../components/add-post/add-post.component';
+import { HomeService } from './home.service';
+import { ICategory, IPost } from './interfaces/home.interface';
 
-interface ItemData {
-  postId: number;
-  postName: string;
-  content: string;
-  photo: string;
-  userId: number;
-  categoryId: number;
-}
-
-interface Category {
-  categoryId: number;
-  categoryName: string;
-}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  posts: ItemData[] = [];
-  categories: Category[] = [];
   userId!: number; // UserId của người đăng nhập
-  postForm: any = {
-    postName: '',
-    content: '',
-    photo: '',
-    categoryId: '',
-  };
-
-  constructor(private router: Router, public dialog: MatDialog, private http: HttpClient) {}
+  categories: ICategory[] = [];
+  posts: IPost[] = [];
+  selectedCategoryIds: number[] = [];
+  isAllCategoriesSelected: boolean = false;
+  constructor(private router: Router, private homeService: HomeService,public dialog: MatDialog, private http: HttpClient) {}
 
   ngOnInit(): void {
+     this.getCategories();
+    this.getPost();
     if (!this.isLoggedIn()) {
       this.router.navigateByUrl('/sign-in');
     } else {
       const userIdString = localStorage.getItem('userId');
       this.userId = userIdString ? +userIdString : 0; 
-      this.fetchPosts(); 
-      this.fetchCategories();
     }
   }
 
@@ -59,21 +43,6 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl('/sign-in');
   }
 
-  fetchPosts(): void {
-    this.http.get<ItemData[]>('http://localhost:3000/post')
-      .subscribe(posts => {
-        this.posts = posts;
-      });
-  }
-
-  fetchCategories(): void {
-    this.http.get<Category[]>('http://localhost:3000/category')
-      .subscribe(categories => {
-        this.categories = categories;
-      }, error => {
-        console.error('Error fetching categories:', error);
-      });
-  }
   openAddArticleDialog(): void {
     const dialogRef = this.dialog.open(AddArticleDialogComponent, {
       width: '400px',
@@ -84,21 +53,55 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  addPost(): void {
-    // Gọi API hoặc service để thêm bài viết mới
-    this.http.post<any>('http://localhost:3000/post/insertpost', {
-      ...this.postForm,
-      userId: this.userId,
-    }).subscribe(response => {
-      console.log('New post added:', response);
-      // Sau khi thêm thành công, có thể làm một số điều gì đó, ví dụ như cập nhật danh sách bài viết
-      this.fetchPosts(); // Cập nhật danh sách bài viết sau khi thêm mới
-    }, error => {
-      console.error('Error adding new post:', error);
+  getCategories(): void {
+    this.homeService.GetCategory().subscribe({
+      next: (categories) => {
+        this.categories = categories.map((category) => ({
+          ...category,
+        }));
+      },
+      error: (err) => {
+        console.error('Có lỗi xảy ra:', err);
+      },
     });
   }
 
-  isCollapsed = false;
+  selectAllCategories(event: any): void {
+    if (event.target.checked) {
+      this.isAllCategoriesSelected = true;
+      this.selectedCategoryIds = [];
+    } else {
+      this.isAllCategoriesSelected = false;
+    }
+    this.getPost();
+  }
+
+  onCheckboxChange(event: any, categoryId: number) {
+    if (this.isAllCategoriesSelected) {
+      this.isAllCategoriesSelected = false;
+    }
+
+    if (event.target.checked) {
+      this.selectedCategoryIds.push(categoryId);
+    } else {
+      this.selectedCategoryIds = this.selectedCategoryIds.filter(
+        (id) => id !== categoryId
+      );
+    }
+
+    this.getPost();
+  }
+
+  getPost(): void {
+    this.homeService.GetAllPostId(this.selectedCategoryIds).subscribe({
+      next: (post) => {
+        this.posts = post;
+      },
+      error: (err) => {
+        console.error('Có lỗi xảy ra:', err);
+      },
+    });
+  }
 
   onSignUp() {
     this.router.navigateByUrl('sign-up');
