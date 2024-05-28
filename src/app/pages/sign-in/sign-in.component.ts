@@ -3,15 +3,12 @@ import {
   FormGroup,
   Validators,
   FormControl,
-  AbstractControl,
-  ValidationErrors,
   FormBuilder,
 } from "@angular/forms";
 import { SignInService } from "./sign-in.service";
-import { Observable, Subject, map } from "rxjs";
+import { Subject } from "rxjs";
 import { PASSWORD_PATTERN, USERNAME_PATTERN } from "./sign-in.data";
 import { Router } from "@angular/router";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { SignInResponse } from "./interface/sign-in.interface";
 
 @Component({
@@ -20,14 +17,17 @@ import { SignInResponse } from "./interface/sign-in.interface";
   styleUrls: ["./sign-in.component.css"],
 })
 export class SignInComponent implements OnInit {
-  router: any;
   constructor(
     private fb: FormBuilder,
     private api: SignInService,
-    private Router: Router,
-    httpclient: HttpClient
+    private router: Router
   ) {}
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    if (localStorage.getItem("userName")) {
+      this.router.navigateByUrl("/");
+    }
+  }
 
   formSubmit$ = new Subject<boolean | null>();
 
@@ -40,7 +40,8 @@ export class SignInComponent implements OnInit {
       next: (signInResult: SignInResponse) => {
         if (signInResult.success) {
           console.log("Đăng nhập thành công");
-          this.Router.navigateByUrl("/");
+          localStorage.setItem("userName", credentials.userName);
+          this.router.navigateByUrl("/");
         } else {
           console.log("Thông tin đăng nhập không đúng:", signInResult);
           alert(
@@ -55,6 +56,7 @@ export class SignInComponent implements OnInit {
       },
     });
   }
+
   formSignin = new FormGroup({
     userName: new FormControl("", [
       Validators.required,
@@ -62,7 +64,6 @@ export class SignInComponent implements OnInit {
       Validators.maxLength(32),
       Validators.pattern(USERNAME_PATTERN),
     ]),
-
     password: new FormControl("", [
       Validators.required,
       Validators.minLength(6),
@@ -72,8 +73,9 @@ export class SignInComponent implements OnInit {
   });
 
   onSignUp() {
-    this.Router.navigateByUrl("sign-up");
+    this.router.navigateByUrl("sign-up");
   }
+
   hidePassword: boolean = true;
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;

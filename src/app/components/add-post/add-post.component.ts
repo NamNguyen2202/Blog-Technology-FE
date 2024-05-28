@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ArticleService } from './add-articles.service';
+import { ArticleService } from './add-post.service';
 
 interface ItemData {
   postName: string;
@@ -17,8 +17,8 @@ interface Category {
 
 @Component({
   selector: 'app-add-article-dialog',
-  templateUrl: './add-articles.component.html',
-  styleUrls: ['./add-articles.component.css'],
+  templateUrl: './add-post.component.html',
+  styleUrls: ['./add-post.component.css'],
 })
 export class AddArticleDialogComponent implements OnInit {
   categories: Category[] = [];
@@ -36,14 +36,7 @@ export class AddArticleDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getUserName();
     this.loadCategories();
-  }
-
-  getUserName(): string {
-    const userName = localStorage.getItem('userName') || '';
-    this.post.userId = parseInt(localStorage.getItem('userId') || '0', 10);
-    return userName;
   }
 
   loadCategories(): void {
@@ -70,7 +63,7 @@ export class AddArticleDialogComponent implements OnInit {
 
   submitArticle(): void {
     this.logData();
-    this.post.userId = parseInt(localStorage.getItem('userId') || '0', 10);
+    console.log(this.post);
     this.articleService.addPost(this.post).subscribe({
       next: (response: any) => {
         console.log('Bài viết đã được đăng:', response);
@@ -81,7 +74,7 @@ export class AddArticleDialogComponent implements OnInit {
       },
       complete: () => {
         console.log('Đăng bài viết hoàn thành');
-      }
+      },
     });
   }
 

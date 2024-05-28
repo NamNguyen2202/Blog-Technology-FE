@@ -1,14 +1,31 @@
-<header>
-  <div class="container">
-    <h1 class="header-blog"><a>Blog của tôi</a></h1>
-  </div>
-  <div class="auth-buttons">
-    <button (click)="onSignUp()">Đăng nhập</button>
-  </div>
-</header>
-<div class="add-article">
-  <button nz-button>Thêm bài viết</button>
-</div>
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog cá nhân</title>
+  </head>
+  <body>
+    <header>
+      <nav class="nav-container">
+        <div class="container">
+          <h1 class="header-blog"><a>Blog-Technology</a></h1>
+        </div>
+        <div class="auth-buttons">
+          <div *ngIf="isLoggedIn(); else loggedOut">
+            <span>Chào, {{ getUserName() }}</span>
+            <button (click)="logout()">Đăng xuất</button>
+          </div>
+          <ng-template #loggedOut>
+            <button (click)="onSignIn()">Đăng nhập</button>
+            <button (click)="onSignUp()">Đăng ký</button>
+          </ng-template>
+        </div>
+      </nav>
+    </header>
+    <div class="add-article">
+      <button (click)="openAddArticleDialog()">Thêm bài viết</button>
+    </div>
 <nz-layout>
   <nz-content class="outer-content" style="color: #99c3d8">
     <nz-layout class="inner-layout">
@@ -36,7 +53,6 @@
           </li>
         </ul>
       </nz-sider>
-
       <!-- Hiển thị danh sách bài viết -->
       <nz-content class="inner-content">
         <nz-list nzItemLayout="vertical">
