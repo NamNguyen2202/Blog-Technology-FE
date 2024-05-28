@@ -1,3 +1,5 @@
+import { Post } from './components/add-post/interface/articles.interface';
+
 export const BACKEND_HOST = 'http://localhost:3000/';
 
 export const API_ENDPOINTS = {

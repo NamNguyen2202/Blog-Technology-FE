@@ -36,15 +36,8 @@ export class AddArticleDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getUserName();
     this.loadCategories();
   }
-
-  // getUserName(): string {
-  //   const userName = localStorage.getItem('userName') || '';
-  //   this.post.userId = parseInt(localStorage.getItem('userId') || '0', 10);
-  //   return userName;
-  // }
 
   loadCategories(): void {
     this.articleService.getCategories().subscribe(
@@ -70,7 +63,7 @@ export class AddArticleDialogComponent implements OnInit {
 
   submitArticle(): void {
     this.logData();
-    this.post.userId = parseInt(localStorage.getItem('userId') || '0', 10);
+    console.log(this.post);
     this.articleService.addPost(this.post).subscribe({
       next: (response: any) => {
         console.log('Bài viết đã được đăng:', response);
@@ -81,7 +74,7 @@ export class AddArticleDialogComponent implements OnInit {
       },
       complete: () => {
         console.log('Đăng bài viết hoàn thành');
-      }
+      },
     });
   }
 
