@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ArticleService } from './add-post.service';
+import { Router } from '@angular/router';
 
 interface ItemData {
   postName: string;
@@ -32,7 +33,8 @@ export class AddArticleDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AddArticleDialogComponent>,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +70,9 @@ export class AddArticleDialogComponent implements OnInit {
       next: (response: any) => {
         console.log('Bài viết đã được đăng:', response);
         this.dialogRef.close();
+        this.router.navigateByUrl('').then(() => {
+          window.location.reload(); // Force reload to see the new post
+        });
       },
       error: (error: any) => {
         console.error('Lỗi khi đăng bài viết:', error);
