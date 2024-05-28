@@ -16,7 +16,11 @@
         <ul nz-menu nzMode="inline" class="sider-menu">
           <li nz-menu-item>
             <label nz-checkbox>
-              <input type="checkbox" (change)="selectAllCategories()" />
+              <input
+                type="checkbox"
+                (change)="selectAllCategories($event)"
+                [checked]="isAllCategoriesSelected"
+              />
               Chọn tất cả
             </label>
           </li>
@@ -24,6 +28,7 @@
             <label nz-checkbox>
               <input
                 type="checkbox"
+                [checked]="selectedCategoryIds.includes(category.categoryId)"
                 (change)="onCheckboxChange($event, category.categoryId)"
               />
               {{ category.categoryName }}

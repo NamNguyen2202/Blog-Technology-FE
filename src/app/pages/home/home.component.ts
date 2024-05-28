@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   categories: ICategory[] = [];
   posts: IPost[] = [];
   selectedCategoryIds: number[] = [];
+  isAllCategoriesSelected: boolean = false;
 
   constructor(private router: Router, private homeService: HomeService) {}
 
@@ -33,12 +34,21 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  selectAllCategories(): void {
-    this.selectedCategoryIds = [];
+  selectAllCategories(event: any): void {
+    if (event.target.checked) {
+      this.isAllCategoriesSelected = true;
+      this.selectedCategoryIds = [];
+    } else {
+      this.isAllCategoriesSelected = false;
+    }
     this.getPost();
   }
 
   onCheckboxChange(event: any, categoryId: number) {
+    if (this.isAllCategoriesSelected) {
+      this.isAllCategoriesSelected = false;
+    }
+
     if (event.target.checked) {
       this.selectedCategoryIds.push(categoryId);
     } else {
