@@ -42,6 +42,8 @@ import { ArticleAllComponent } from './components/article-all/article-all.compon
 import { PerInfoComponent } from './components/per-info/per-info.component';
 import { MatIconModule } from '@angular/material/icon';
 
+import { AddArticleDialogComponent } from './components/add-post/add-post.component';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -85,7 +87,6 @@ registerLocaleData(en);
     provideClientHydration(),
     { provide: NZ_I18N, useValue: vi_VN },
     provideAnimationsAsync(),
-    provideHttpClient(),
   ],
   bootstrap: [AppComponent],
 })
