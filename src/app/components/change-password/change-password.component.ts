@@ -1,167 +1,113 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
   FormControl,
   FormGroup,
   NonNullableFormBuilder,
+  ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
 
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { PASSWORD_PATTERN } from '../../pages/sign-in/sign-in.data';
+import { ChangePassService } from './change-password.service';
+import { HomeService } from '../../pages/home/home.service';
+import { HomeComponent } from '../../pages/home/home.component';
+import {
+  IChangePass,
+  IChangePassword,
+} from '../../common/interfaces/user.interface';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.css',
 })
-export class ChangePasswordComponent {
-  validateForm: FormGroup<{
-    userName: FormControl<string>;
-    mobile: FormControl<string>;
-    email: FormControl<string>;
-    password: FormControl<string>;
-    confirm: FormControl<string>;
-  }>;
-
-  // current locale is key of the nzAutoTips
-  // if it is not found, it will be searched again with `default`
-  autoTips: Record<string, Record<string, string>> = {
-    'zh-cn': {
-      required: '必填项',
-    },
-    en: {
-      required: 'Input is required',
-    },
-    default: {
-      email: '邮箱格式不正确/The input is not valid email',
-    },
-  };
-
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach((control) => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-    }
+export class ChangePasswordComponent implements OnInit {
+  constructor(
+    private changePassService: ChangePassService,
+    private homeComponent: HomeComponent
+  ) {}
+  ngOnInit(): void {}
+  getUserName(): string {
+    return this.homeComponent.getUserName();
+  }
+  hidePassword: boolean = true;
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+  hideConfirmPassword: boolean = true;
+  toggleConfirmPasswordVisibility(): void {
+    this.hideConfirmPassword = !this.hideConfirmPassword;
   }
 
-  validateConfirmPassword(): void {
-    setTimeout(() =>
-      this.validateForm.controls.confirm.updateValueAndValidity()
-    );
-  }
-
-  userNameAsyncValidator: AsyncValidatorFn = (control: AbstractControl) =>
-    new Observable((observer: Observer<MyValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value === 'JasonWood') {
-          observer.next({
-            duplicated: {
-              'zh-cn': `用户名已存在`,
-              vi: `Tên người dùng đã tồn tại!`,
-            },
-          });
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 1000);
-    });
-
-  confirmValidator: ValidatorFn = (
+  passwordMatchValidator: ValidatorFn = (
     control: AbstractControl
-  ): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
+  ): ValidationErrors | null => {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    const error =
+      password && confirmPassword && password !== confirmPassword
+        ? { passwordMatchValidator: true }
+        : null;
+    return error;
   };
 
-  constructor(private fb: NonNullableFormBuilder) {
-    // use `MyValidators`
-    const { required, maxLength, minLength, email, mobile } = MyValidators;
-    this.validateForm = this.fb.group({
-      userName: [
-        '',
-        [required, maxLength(12), minLength(6)],
-        [this.userNameAsyncValidator],
-      ],
-      mobile: ['', [required, mobile]],
-      email: ['', [required, email]],
-      password: ['', [required]],
-      confirm: ['', [this.confirmValidator]],
+  registerForm = new FormGroup(
+    {
+      currentpassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(32),
+        Validators.pattern(PASSWORD_PATTERN),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(32),
+        Validators.pattern(PASSWORD_PATTERN),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(32),
+        Validators.pattern(PASSWORD_PATTERN),
+      ]),
+    },
+    {
+      validators: [this.passwordMatchValidator],
+    }
+  );
+
+  onChange() {
+    const changePass: IChangePass = {
+      userName: this.getUserName(),
+      currentPassword: this.registerForm.get('currentpassword')!.value || '',
+      newPassword: this.registerForm.get('password')!.value || '',
+    };
+    this.changePassService.ChangePass(changePass).subscribe({
+      next: (result: IChangePassword) => {
+        if (result.success) {
+          console.log('Mật khẩu đã thay đổi');
+          alert('Thay đổi thành công');
+        } else {
+          alert(result.message || 'Hãy thử lại.');
+          console.log('Đổi mật khẩu thất bại', result.message);
+        }
+      },
+      error: (error) => {
+        console.log(this.getUserName());
+        console.log(this.registerForm.get('currentpassword')!.value);
+        console.log(this.registerForm.get('password')!.value);
+        alert('Đã xảy ra lỗi khi thay đổi mật khẩu. Vui lòng thử lại sau.');
+        console.error('Error:', error);
+      },
+      complete: () => {
+        console.log('Hoàn thành thay đổi mk');
+      },
     });
   }
-}
-
-// current locale is key of the MyErrorsOptions
-export type MyErrorsOptions = { 'zh-cn': string; vi: string } & Record<
-  string,
-  NzSafeAny
->;
-export type MyValidationErrors = Record<string, MyErrorsOptions>;
-
-export class MyValidators extends Validators {
-  static override minLength(minLength: number): ValidatorFn {
-    return (control: AbstractControl): MyValidationErrors | null => {
-      if (Validators.minLength(minLength)(control) === null) {
-        return null;
-      }
-      return {
-        minlength: {
-          'zh-cn': `最小长度为 ${minLength}`,
-          vi: `Độ dài tối thiểu là ${minLength}`,
-        },
-      };
-    };
-  }
-
-  static override maxLength(maxLength: number): ValidatorFn {
-    return (control: AbstractControl): MyValidationErrors | null => {
-      if (Validators.maxLength(maxLength)(control) === null) {
-        return null;
-      }
-      return {
-        maxlength: {
-          'zh-cn': `最大长度为 ${maxLength}`,
-          vi: `Độ dài tối đa là ${maxLength}`,
-        },
-      };
-    };
-  }
-
-  static mobile(control: AbstractControl): MyValidationErrors | null {
-    const value = control.value;
-
-    if (isEmptyInputValue(value)) {
-      return null;
-    }
-
-    return isMobile(value)
-      ? null
-      : {
-          mobile: {
-            'zh-cn': `手机号码格式不正确`,
-            vi: `Số điện thoại không hợp lệ`,
-          },
-        };
-  }
-}
-
-function isEmptyInputValue(value: NzSafeAny): boolean {
-  return value == null || value.length === 0;
-}
-
-function isMobile(value: string): boolean {
-  return typeof value === 'string' && /^0[3-9]\d{8}$/.test(value);
 }
