@@ -5,7 +5,7 @@
     </div>
     <div class="auth-buttons">
       <div *ngIf="isLoggedIn(); else loggedOut">
-        <span>Chào, {{ getUserName() }}</span>
+        <button (click)="onChangePass()">Chào, {{ getUserName() }}</button>
         <button (click)="logout()">Đăng xuất</button>
       </div>
       <ng-template #loggedOut>
@@ -59,7 +59,7 @@
           >
             <nz-list-item-meta>
               <nz-list-item-meta-title>
-                <a href="">{{ post.postName }}</a>
+                <a (change)="(post.postId)" href="">{{ post.postName }}</a>
               </nz-list-item-meta-title>
               <nz-list-item-meta-description>
                 {{ post.categoryName }}

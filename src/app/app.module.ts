@@ -36,6 +36,8 @@ import { SignupComponent } from './pages/sign-up/sign-up.component';
 import { PerInfoComponent } from './components/per-info/per-info.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AddArticleDialogComponent } from './components/add-post/add-post.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 registerLocaleData(en);
 
@@ -46,6 +48,7 @@ registerLocaleData(en);
     HomeComponent,
     SignupComponent,
     PerInfoComponent,
+    ChangePasswordComponent,
     AddArticleDialogComponent,
   ],
   imports: [
@@ -71,12 +74,14 @@ registerLocaleData(en);
     MatButtonModule,
     MatIconModule,
     HttpClientModule,
+    MatDialogModule,
   ],
   providers: [
+    HomeComponent,
     provideClientHydration(),
     { provide: NZ_I18N, useValue: vi_VN },
     provideAnimationsAsync(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
   ],
   bootstrap: [AppComponent],
 })

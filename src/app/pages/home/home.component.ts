@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AddArticleDialogComponent } from '../../components/add-post/add-post.component';
 import { HomeService } from './home.service';
 import { ICategory, IPost } from './interfaces/home.interface';
+import { ChangePasswordComponent } from '../../components/change-password/change-password.component';
 
 @Component({
   selector: 'app-home',
@@ -17,16 +18,21 @@ export class HomeComponent implements OnInit {
   posts: IPost[] = [];
   selectedCategoryIds: number[] = [];
   isAllCategoriesSelected: boolean = false;
-  constructor(private router: Router, private homeService: HomeService,public dialog: MatDialog, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private homeService: HomeService,
+    public dialog: MatDialog,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
-     this.getCategories();
+    this.getCategories();
     this.getPost();
     if (!this.isLoggedIn()) {
       this.router.navigateByUrl('/sign-in');
     } else {
       const userIdString = localStorage.getItem('userId');
-      this.userId = userIdString ? +userIdString : 0; 
+      this.userId = userIdString ? +userIdString : 0;
     }
   }
 
@@ -47,8 +53,8 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(AddArticleDialogComponent, {
       width: '400px',
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
   }
@@ -74,6 +80,16 @@ export class HomeComponent implements OnInit {
       this.isAllCategoriesSelected = false;
     }
     this.getPost();
+  }
+  onChangePass(): void {
+    const dialogRef1 = this.dialog.open(ChangePasswordComponent, {
+      width: '600px',
+    });
+    console.log('The dialog was opened');
+
+    dialogRef1.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 
   onCheckboxChange(event: any, categoryId: number) {
