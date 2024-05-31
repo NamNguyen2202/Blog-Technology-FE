@@ -28,16 +28,6 @@
     (ngModelChange)="logData()"
   />
 
-
-  <label for="userId">Người đăng (ID):</label>
-  <input
-    type="text"
-    id="userId"
-    name="userId"
-    [value]="post.userId"
-    readonly
-  />
-
   <label for="categoryId">Loại bài viết:</label>
   <select id="categoryId" name="categoryId" [(ngModel)]="post.categoryId">
     <option *ngFor="let category of categories" [value]="category.categoryId">
