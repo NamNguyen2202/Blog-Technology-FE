@@ -30,6 +30,7 @@ export class SignInComponent implements OnInit {
   }
 
   formSubmit$ = new Subject<boolean | null>();
+  userId : number | undefined;
 
   onSignIn() {
     const credentials = {

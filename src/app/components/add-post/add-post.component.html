@@ -28,16 +28,6 @@
     (ngModelChange)="logData()"
   />
 
-  <label for="userId">userId:</label>
-  <textarea
-    id="userId"
-    name="userId"
-    rows="4"
-    cols="50"
-    [(ngModel)]="post.userId"
-    (ngModelChange)="logData()"
-  ></textarea>
-
   <label for="categoryId">Loại bài viết:</label>
   <select id="categoryId" name="categoryId" [(ngModel)]="post.categoryId">
     <option *ngFor="let category of categories" [value]="category.categoryId">

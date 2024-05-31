@@ -27,4 +27,14 @@ export class ArticleService {
       headers,
     });
   }
+
+  getUserId(username: string): Observable<number> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.httpClient.get<number>(API_ENDPOINTS.GET_USER_ID_BY_USERNAME(username), {
+      headers,
+    });
+  }
 }
+

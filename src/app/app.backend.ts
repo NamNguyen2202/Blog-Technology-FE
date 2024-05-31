@@ -21,4 +21,16 @@ export const API_ENDPOINTS = {
   POST_ID: (category: string) => {
     return `${BACKEND_HOST}post/ids?categoryIds=${category}`;
   },
+  GET_USER_ID_BY_USERNAME: (userName: string) =>
+    `${BACKEND_HOST}user/userId/${userName}`,
+
+  GET_USER_NAME_BY_USERID: (userId: number) =>
+    `${BACKEND_HOST}user/userName/${userId}`,
+
+  GET_COMMENTS_BY_POST_ID: (postId: number) => 
+    `${BACKEND_HOST}comment/post/${postId}`,
+  ADD_COMMENT: `${BACKEND_HOST}comment/add`,
+
+  GET_ALLPOST_BY_USERID: (userId: number) =>
+    `${BACKEND_HOST}post/user/${userId}`,
 };
