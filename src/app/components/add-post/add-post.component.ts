@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ArticleService } from './add-post.service';
 import { Router } from '@angular/router';
+import { User } from '../../common/interfaces/user.interface';
 
 interface ItemData {
   postName: string;
@@ -23,6 +24,7 @@ interface Category {
 })
 export class AddArticleDialogComponent implements OnInit {
   categories: Category[] = [];
+  userId: User[]=[];
   post: ItemData = {
     postName: '',
     content: '',
@@ -34,11 +36,16 @@ export class AddArticleDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddArticleDialogComponent>,
     private articleService: ArticleService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.loadCategories();
+    this.loadUserId();
+  }
+
+  getUserName(): string {
+    return localStorage.getItem('userName') || '';
   }
 
   loadCategories(): void {
@@ -50,6 +57,20 @@ export class AddArticleDialogComponent implements OnInit {
         console.error('Error fetching categories:', error);
       }
     );
+  }
+
+  loadUserId(): void {
+    const username = this.getUserName();
+    if (username) {
+      this.articleService.getUserId(username).subscribe(
+        (data: number) => {
+          this.post.userId = data;
+        },
+        (error: any) => {
+          console.error('Error fetching userId:', error);
+        }
+      );
+    }
   }
 
   onFileChange(event: any): void {

@@ -6,5 +6,6 @@ export interface SignInUser {
 export interface SignInResponse {
   success: boolean;
   userName?: string;
+  userId? : number;
   message?: string;
 }

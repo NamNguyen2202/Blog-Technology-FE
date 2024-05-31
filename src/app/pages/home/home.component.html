@@ -15,8 +15,15 @@
     </div>
   </nav>
 </header>
-<div class="add-article">
-  <button (click)="openAddArticleDialog()">Thêm bài viết</button>
+
+<div class="button-container">
+  <div class="add-article">
+    <button (click)="openAddArticleDialog()" style="height: 90;">Thêm bài viết</button>
+  </div>
+  <div class="show-all-posts" style="margin-top: 30px; height: 100px;">
+    <!-- Nút để hiển thị tất cả bài post của người đăng nhập -->
+    <button (click)="showAllPosts()">Hiển thị tất cả bài viết của bạn</button>
+  </div>
 </div>
 <nz-layout>
   <nz-content class="outer-content" style="color: #99c3d8">
@@ -68,24 +75,43 @@
             {{ post.content }}
             <ul nz-list-item-actions>
               <nz-list-item-action>
-                <span nz-icon nzType="star-o" style="margin-right: 8px"></span>
-                156
-              </nz-list-item-action>
-              <nz-list-item-action>
-                <span nz-icon nzType="star-o" style="margin-right: 8px"></span>
-                156
-              </nz-list-item-action>
-              <nz-list-item-action>
-                <span nz-icon nzType="star-o" style="margin-right: 8px"></span>
-                2
+                <span nz-icon nzType="message" style="margin-right: 8px"></span>
+                {{ post.comments?.length || 0 }} comments
               </nz-list-item-action>
             </ul>
             <nz-list-item-extra>
               <img width="272" alt="logo" [src]="post.photo" />
             </nz-list-item-extra>
+            <div class="comments-section" *ngIf="post.showComments">
+              <br>
+              <button (click)="toggleComments(post)">Ẩn bình luận</button>
+              <br>
+              <br>
+              <div *ngFor="let comment of post.comments">
+                <p>{{ comment.userId }} : {{ comment.contentComment }}</p>
+              </div>
+              <div *ngIf="isLoggedIn()">
+                <input
+                  type="text"
+                  [(ngModel)]="post.newCommentContent"
+                  placeholder="Thêm bình luận..."
+                />
+                <br>
+                <br>
+                <button (click)="addComment(post, post.newCommentContent)">
+                  Gửi
+                </button>
+              </div>
+            </div>
+            <br>
+            <br>
+            <div class="showcomment" *ngIf="!post.showComments">
+              <button (click)="toggleComments(post)">Xem bình luận</button>
+            </div>
           </nz-list-item>
         </nz-list>
       </nz-content>
     </nz-layout>
   </nz-content>
 </nz-layout>
+

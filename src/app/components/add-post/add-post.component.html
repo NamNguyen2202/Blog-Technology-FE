@@ -28,15 +28,15 @@
     (ngModelChange)="logData()"
   />
 
-  <label for="userId">userId:</label>
-  <textarea
+
+  <label for="userId">Người đăng (ID):</label>
+  <input
+    type="text"
     id="userId"
     name="userId"
-    rows="4"
-    cols="50"
-    [(ngModel)]="post.userId"
-    (ngModelChange)="logData()"
-  ></textarea>
+    [value]="post.userId"
+    readonly
+  />
 
   <label for="categoryId">Loại bài viết:</label>
   <select id="categoryId" name="categoryId" [(ngModel)]="post.categoryId">
