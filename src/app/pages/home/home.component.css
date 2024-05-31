@@ -1,4 +1,3 @@
-/* Cài đặt chung */
 body {
   font-family: sans-serif;
   margin: 0;
@@ -7,24 +6,40 @@ body {
 
 .container {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 0;
   padding: 20px;
 }
 
-/* Header */
+.list-item {
+  border: 1px solid;
+  padding: 20px;
+  margin: 20px;
+}
+
+.header-blog {
+  font-weight: bold;
+  color: #fff !important;
+}
+
 header {
-  background-color: #f0f0f0;
+  background-color: #d8a899;
   padding: 10px 0;
-  display: flex; /* Sử dụng flexbox để bố cục header */
-  justify-content: space-between; /* Phân phối khoảng trống đều giữa các phần tử */
-  align-items: center; /* Canh giữa các phần tử theo chiều dọc */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
 }
 
 h1 {
-  margin: 0;
-  text-align: center;
-  margin-bottom: 20px;
   font-size: 40px;
+  margin: 0;
 }
 
 h1 a {
@@ -32,60 +47,9 @@ h1 a {
   text-decoration: none;
 }
 
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-nav li {
-  display: inline-block;
-  margin: 0 15px;
-}
-
-nav a {
-  color: #333;
-  text-decoration: none;
-}
-
-nav a:hover {
-  color: #007bff;
-}
-
-/* Footer */
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px 0;
-}
-
-.user-actions {
+.auth-buttons {
   display: flex;
   align-items: center;
-}
-
-.btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  color: #fff;
-  margin-left: 10px; /* Khoảng cách giữa hai nút */
-}
-
-.auth-buttons {
-  float: right; /* Đặt các nút ở góc phải */
 }
 
 .auth-buttons button {
@@ -95,8 +59,223 @@ footer {
   cursor: pointer;
 }
 
-.sign-in{
-  margin-right: 40px;
+.auth-buttons span {
+  margin-right: 10px;
 }
 
+.sider-menu {
+  border: 1px solid;
+}
 
+.add-article {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 20px;
+  padding: 10px 30px;
+}
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Header and Navigation */
+.nav-container {
+  padding: 10px 20px;
+}
+
+.header-blog h1 {
+  color: white;
+  margin: 0;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-buttons button {
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-buttons button:hover {
+  background-color: #e0e0e0;
+}
+
+.auth-buttons span {
+  color: white;
+}
+
+/* Add Article Buttons */
+.add-article {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.add-article button {
+  background-color: #d8a899;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.show-all-posts button {
+  background-color: #d8a899;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.showcomment button {
+  background-color: #d8a899;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.add-article button:hover {
+  background-color: #d8a899;
+}
+
+.show-all-posts button:hover {
+  background-color: #d8a899;
+}
+/* Layout */
+.outer-content {
+  padding: 20px;
+}
+
+.inner-layout {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar */
+.sider-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.sider-menu li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sider-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.sider-menu input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Posts List */
+nz-list-item {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+nz-list-item-meta-title a {
+  font-size: 1.2em;
+  color: #007bff;
+}
+
+nz-list-item-meta-description {
+  color: #666;
+}
+
+nz-list-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+nz-list-item-action {
+  color: #d8a899;
+}
+
+nz-list-item-extra img {
+  border-radius: 10px;
+}
+
+/* Comments Section */
+.comments-section {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.comments-section div {
+  margin-bottom: 10px;
+}
+
+.comments-section p {
+  background-color: #f0f2f5;
+  padding: 10px;
+  border-radius: 15px;
+  margin: 5px 0;
+  display: inline-block;
+}
+
+.comments-section input[type="text"] {
+  width: calc(100% - 60px);
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+}
+
+.comments-section button {
+  background-color: #d8a899;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.comments-section button:hover {
+  background-color: #0056b3;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Distribute items evenly along the main axis */
+  margin-bottom: 20px; /* Add spacing between the buttons and the content */
+}
+
+.add-article,
+.show-all-posts {
+  flex: 1; /* Distribute available space equally between the buttons */
+}
+
+.add-article button,
+.show-all-posts button {
+  width: 20%;
+}

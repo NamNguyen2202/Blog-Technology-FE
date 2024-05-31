@@ -1,35 +1,117 @@
-<!DOCTYPE html>
-<html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog cá nhân</title>
-  </head>
-  <body>
-    <header>
-      <div class="container">
-        <h1><a href="#">Blog của tôi</a></h1>
-        <nav>
-          <ul>
-            <li><a href="#">Trang chủ</a></li>
-            <li><a href="#">Giới thiệu</a></li>
-            <li><a href="#">Bài viết</a></li>
-            <li><a href="#">Liên hệ</a></li>
-            <li><a href="#">Khác</a></li>
-          </ul>
-        </nav>
+<header>
+  <nav class="nav-container">
+    <div class="container">
+      <h1 class="header-blog"><a>Blog-Technology</a></h1>
+    </div>
+    <div class="auth-buttons">
+      <div *ngIf="isLoggedIn(); else loggedOut">
+        <button (click)="onChangePass()">Chào, {{ getUserName() }}</button>
+        <button (click)="logout()">Đăng xuất</button>
       </div>
-      <div class="auth-buttons">
-        <!-- Các nút đăng nhập và đăng ký -->
-        <button (click)="onSignUp()">Đăng nhập</button>
-        <button class="sign-in" (click)="onSignIn()">Đăng ký</button>
-      </div>
-    </header>
+      <ng-template #loggedOut>
+        <button (click)="onSignIn()">Đăng nhập</button>
+        <button (click)="onSignUp()">Đăng ký</button>
+      </ng-template>
+    </div>
+  </nav>
+</header>
 
-    <main>
-      <h1 style="margin: 50px">Trang giới thiệu</h1>
-    </main>
+<div class="button-container">
+  <div class="add-article">
+    <button (click)="openAddArticleDialog()" style="height: 90;">Thêm bài viết</button>
+  </div>
+  <div class="show-all-posts" style="margin-top: 30px; height: 100px;">
+    <!-- Nút để hiển thị tất cả bài post của người đăng nhập -->
+    <button (click)="showAllPosts()">Hiển thị tất cả bài viết của bạn</button>
+  </div>
+</div>
+<nz-layout>
+  <nz-content class="outer-content" style="color: #99c3d8">
+    <nz-layout class="inner-layout">
+      <nz-sider nzWidth="200px" nzTheme="light">
+        <ul nz-menu nzMode="inline" class="sider-menu">
+          <li nz-menu-item>
+            <label nz-checkbox>
+              <input
+                type="checkbox"
+                (change)="selectAllCategories($event)"
+                [checked]="isAllCategoriesSelected"
+              />
+              Chọn tất cả
+            </label>
+          </li>
+          <li nz-menu-item *ngFor="let category of categories">
+            <label nz-checkbox>
+              <input
+                type="checkbox"
+                [checked]="selectedCategoryIds.includes(category.categoryId)"
+                (change)="onCheckboxChange($event, category.categoryId)"
+              />
+              {{ category.categoryName }}
+            </label>
+          </li>
+        </ul>
+      </nz-sider>
+      <!-- Hiển thị danh sách bài viết -->
+      <nz-content class="inner-content">
+        <nz-list nzItemLayout="vertical">
+          <nz-list-item
+            *ngFor="let post of posts"
+            style="
+              border: 1px solid;
+              padding: 20px;
+              margin: 20px;
+              border-radius: 10px;
+            "
+          >
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>
+                <a (change)="(post.postId)" href="">{{ post.postName }}</a>
+              </nz-list-item-meta-title>
+              <nz-list-item-meta-description>
+                {{ post.categoryName }}
+              </nz-list-item-meta-description>
+            </nz-list-item-meta>
+            {{ post.content }}
+            <ul nz-list-item-actions>
+              <nz-list-item-action>
+                <span nz-icon nzType="message" style="margin-right: 8px"></span>
+                {{ post.comments?.length || 0 }} comments
+              </nz-list-item-action>
+            </ul>
+            <nz-list-item-extra>
+              <img width="272" alt="logo" [src]="post.photo" />
+            </nz-list-item-extra>
+            <div class="comments-section" *ngIf="post.showComments">
+              <br>
+              <button (click)="toggleComments(post)">Ẩn bình luận</button>
+              <br>
+              <br>
+              <div *ngFor="let comment of post.comments">
+                <p>{{ comment.userId }} : {{ comment.contentComment }}</p>
+              </div>
+              <div *ngIf="isLoggedIn()">
+                <input
+                  type="text"
+                  [(ngModel)]="post.newCommentContent"
+                  placeholder="Thêm bình luận..."
+                />
+                <br>
+                <br>
+                <button (click)="addComment(post, post.newCommentContent)">
+                  Gửi
+                </button>
+              </div>
+            </div>
+            <br>
+            <br>
+            <div class="showcomment" *ngIf="!post.showComments">
+              <button (click)="toggleComments(post)">Xem bình luận</button>
+            </div>
+          </nz-list-item>
+        </nz-list>
+      </nz-content>
+    </nz-layout>
+  </nz-content>
+</nz-layout>
 
-    <!-- <script src="script.js"></script> -->
-  </body>
-</html>
