@@ -11,3 +11,14 @@ export interface SignUpResponse {
   message?: string;
 }
 
+export interface IChangePass {
+  userName: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface IChangePassword {
+  success: boolean;
+  userName?: string;
+  message?: string;
+}

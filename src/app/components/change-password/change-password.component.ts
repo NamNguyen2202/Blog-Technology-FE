@@ -91,17 +91,12 @@ export class ChangePasswordComponent implements OnInit {
     this.changePassService.ChangePass(changePass).subscribe({
       next: (result: IChangePassword) => {
         if (result.success) {
-          console.log('Mật khẩu đã thay đổi');
           alert('Thay đổi thành công');
         } else {
           alert(result.message || 'Hãy thử lại.');
-          console.log('Đổi mật khẩu thất bại', result.message);
         }
       },
       error: (error) => {
-        console.log(this.getUserName());
-        console.log(this.registerForm.get('currentpassword')!.value);
-        console.log(this.registerForm.get('password')!.value);
         alert('Đã xảy ra lỗi khi thay đổi mật khẩu. Vui lòng thử lại sau.');
         console.error('Error:', error);
       },

@@ -17,10 +17,6 @@ export class ChangePassService {
       'Content-Type': 'application/json',
     });
     const url = API_ENDPOINTS.CHANGE_PASS;
-    return this.httpClient.put<IChangePassword>(
-      url,
-      { changePass },
-      { headers }
-    );
+    return this.httpClient.put<IChangePassword>(url, changePass, { headers });
   }
 }
